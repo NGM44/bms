@@ -1,5 +1,5 @@
 {
-  "name": "onetap",
+  "name": "AirScale",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -16,12 +16,16 @@
     "@types/react-dom": "18.2.6",
     "appwrite": "^11.0.0",
     "autoprefixer": "10.4.14",
+    "echarts": "^5.5.0",
+    "echarts-for-react": "^3.0.2",
     "encoding": "^0.1.13",
     "env-cmd": "^10.1.0",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
+    "firebase": "^10.9.0",
     "jsonwebtoken": "8.5.1",
     "jwt-decode": "^3.1.2",
+    "lodash": "^4.17.21",
     "next": "13.4.9",
     "node-appwrite": "^9.0.0",
     "postcss": "8.4.25",
@@ -33,6 +37,8 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.2"
+    "@types/echarts": "^4.9.22",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/lodash": "^4.17.0"
   }
 }
