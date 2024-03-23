@@ -12,6 +12,12 @@ module.exports = {
           101: "#0CCBFD",
           301: "#08A0C7",
         },
+        primary: {
+          100: "#D1E6FA",
+          300: "#D1E6FA",
+          500: "#69B2F8",
+          800:"#0168FA",
+        }
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

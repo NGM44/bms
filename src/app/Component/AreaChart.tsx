@@ -134,8 +134,8 @@ const AreaChart = () => {
   return (
     <div className="bg-white border border-gray-200 shadow-md rounded-md px-4 py-2" >
       <div>
-        <p className="font-medium">Humidity Reading</p>
-        <p className="text-xs text-gray-500">Humidity should be control under 100</p>
+        <p className="font-medium">VOC Reading</p>
+        <p className="text-xs text-gray-500">Volatile Organic Compounds</p>
       </div>
       <ReactECharts option={option} />
     </div>

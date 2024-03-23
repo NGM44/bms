@@ -40,7 +40,8 @@ const BarChart = () => {
     },
     series: [
       {
-        color: "#4F46E5",
+        color: "#69B2F8",
+        backgroundColor : "#D1E6FA",
         data: [120, 200, 150, 80, 70, 110, 130,120, 200, 150, 80, 70, 110, 130,120, 200, 150, 80, 70, 110, 130],
         type: 'bar'
       }
