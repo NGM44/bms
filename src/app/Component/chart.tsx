@@ -86,7 +86,7 @@ const BarChart = () => {
       <div>
         <p className="font-medium">AQI Reading</p>
         <p className="text-xs text-gray-500">
-          Value of AQI Above 250 is Considered as danger
+          Value of AQI should be maintained below 250 for safety
         </p>
       </div>
       <ReactECharts option={option} />

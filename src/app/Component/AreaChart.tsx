@@ -135,7 +135,7 @@ const AreaChart = () => {
     <div className="bg-white border border-gray-200 shadow-md rounded-md px-4 py-2" >
       <div>
         <p className="font-medium">VOC Reading</p>
-        <p className="text-xs text-gray-500">Volatile Organic Compounds</p>
+        <p className="text-xs text-gray-500">Volatile Organic Compounds are chemicals that contain carbon</p>
       </div>
       <ReactECharts option={option} />
     </div>

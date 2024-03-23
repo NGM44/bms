@@ -439,11 +439,11 @@ export default function Example() {
                 <div className="flex-1 ">
                   {
                     <div className="flex flex-col gap-8 h-full  items-center justify-between">
-                      <div className="flex-1 bg-[#f3f3f7] rounded-md p-4">
+                      <div className="flex-1 bg-[#f3f3f7] rounded-md md:p-4 px-20 py-4">
                         <p className="pb-4 -p-2 text-center font-medium text-black">
                           Particulate Matter Details
                         </p>
-                        <div className="flex flex-row  gap-4">
+                        <div className="flex md:flex-row flex-col gap-4">
                           <RoomCard2
                             stat={{
                               name: "PM1",
@@ -499,7 +499,7 @@ export default function Example() {
                     </div>
                   }
                 </div>
-                <div className="flex-1 bg-[#f3f3f7] rounded-md p-4">
+                <div className="flex-1 bg-[#f3f3f7] rounded-md md:p-4 p-1">
                   <div className="flex flex-row  gap-4">
                     <div className="bg-primary-800 rounded-md relative">
                       <Image
@@ -591,7 +591,7 @@ export default function Example() {
               </div>
             </header>
             <div className="w-full">
-              <header className="pb-4 pt-6 sm:pb-6 bg-[#f3f3f7]">
+              <header className="pb-4 pt-6 mt-20 sm:pb-6 bg-[#f3f3f7]">
                 <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-6 px-4 sm:flex-nowrap sm:px-6 lg:px-8 justify-between">
                   <h1 className="text-base font-semibold leading-7 text-gray-900">
                     Historical Information
@@ -615,7 +615,7 @@ export default function Example() {
               </header>
             </div>
             <header className="pb-4 pt-6 sm:pb-6">
-              <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-6 px-4 sm:flex-nowrap sm:px-6 lg:px-8">
+              <div className="mx-auto flex max-w-7xl md:flex-row flex-col items-center gap-6 px-4 sm:flex-nowrap sm:px-6 lg:px-8">
                 <div className="flex-1">
                   <AreaChart />
                 </div>
