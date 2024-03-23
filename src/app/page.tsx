@@ -429,7 +429,7 @@ export default function Example() {
               {/* <div className="border-b border-b-gray-900/10 lg:border-t lg:border-t-gray-900/5"> */}
               <dl className="mx-auto grid max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-6 xl:px-8 gap-8 ">
                 {stats.map((stat, statIdx) => (
-                  <RoomCard stat={stat} />
+                  <RoomCard key={stat.name} stat={stat} />
                 ))}
               </dl>
             </div>
