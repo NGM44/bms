@@ -596,7 +596,7 @@ export default function Example() {
                   <h1 className="text-base font-semibold leading-7 text-gray-900">
                     Historical Information
                   </h1>
-                  <div className="order-last flex w-full gap-x-8 text-sm font-semibold leading-6 sm:order-none sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6 sm:leading-7">
+                  <div className="order-last flex w-full gap-x-8 text-sm cursor-pointer font-semibold leading-6 sm:order-none sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6 sm:leading-7">
                     {secondaryNavigation.map((item) => (
                       <div
                         key={item.name}
