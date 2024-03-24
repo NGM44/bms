@@ -30,6 +30,8 @@ import RoomCard from "./Component/RoomCard";
 import Office from "./Component/office";
 import RoomCard2 from "./Component/RoomCard2";
 import BreadCrums from "./Component/BreadCrums";
+import { progressChart } from "./Component/AQIMeter";
+import { MyComponent } from "./Component/comp";
 
 const navigation = [{ name: "", href: "#" }];
 const secondaryNavigation = [
@@ -140,31 +142,31 @@ export default function Example() {
   const [data, setData] = useState<AirScaleModel[]>();
   const [refresh, setRefresh] = useState(true);
   const [period, setPeriod] = useState("Last 7 days");
-  const stats = useMemo(() => {
+  const stats1 = useMemo(() => {
     if (data) {
       return [
         {
-          name: "AQI",
-          value: data[0].AQI,
+          name: "Temparature",
+          value: `${data[0].Temperature.toFixed(2)}°C`,
           change: "+4.75%",
           changeType: "positive",
         },
         {
-          name: "Noise Level",
-          value: data[0].Noise,
+          name: "Humidity",
+          value: `${data[0].Humidity.toFixed(2)} % r.H`,
           change: "+10.18%",
           changeType: "negative",
         },
-
         {
           name: "CO2",
-          value: data[0].CO2,
+          value: `${data[0].CO2} ppm`,
           change: "1.39%",
           changeType: "positive",
         },
+
         {
-          name: "NOX",
-          value: data[0].NOx,
+          name: "Barometric Pressure",
+          value: `${data[0].Pressure.toFixed(2)} hPa`,
           change: "+54.02%",
           changeType: "negative",
         },
@@ -174,30 +176,34 @@ export default function Example() {
     return [];
   }, [data]);
 
-  const stat1 = useMemo(() => {
+  const stats2 = useMemo(() => {
     if (data) {
       return [
         {
-          id: 1,
-          name: "NOx",
-          value: data[0].NOx,
-          // change: "+4.75%",
-          // changeType: "positive",
+          name: "VOC",
+          value: `${data[0].VOC} ppm`,
+          change: "+4.75%",
+          changeType: "positive",
+        },
+
+        {
+          name: "Noise Level",
+          value: `${data[0].Noise} dB`,
+          change: "+10.18%",
+          changeType: "negative",
+        },
+
+        {
+          name: "Ambient Light",
+          value: `${data[0].Light.toFixed(2)} Klx`,
+          change: "1.39%",
+          changeType: "positive",
         },
         {
-          id: 2,
-          name: "NOx",
-          value: data[0].NOx,
-        },
-        {
-          id: 3,
-          name: "Noise",
-          value: data[0].Noise,
-        },
-        {
-          id: 4,
-          name: "Pressure",
-          value: data[0].Pressure,
+          name: "Altitude",
+          value: data[0].Altitude,
+          change: "+54.02%",
+          changeType: "negative",
         },
       ];
     } else {
@@ -205,35 +211,61 @@ export default function Example() {
     return [];
   }, [data]);
 
-  const stat2 = useMemo(() => {
+  const stats3 = useMemo(() => {
     if (data) {
       return [
         {
-          id: 1,
-          name: "PM1",
-          value: data[0].PM1,
+          name: "AQI",
+          value: `${data[0].VOC} ppm`,
+          change: "+4.75%",
+          changeType: "positive",
         },
+
         {
-          id: 2,
-          name: "PM10",
-          value: data[0].PM10,
-        },
-        {
-          id: 3,
-          name: "PM2_5",
-          value: data[0].PM2_5,
-        },
-        {
-          id: 4,
-          name: "PM4",
-          value: data[0].PM4,
+          name: "NOx",
+          value: `${data[0].Noise} dB`,
+          change: "+10.18%",
+          changeType: "negative",
         },
       ];
     } else {
     }
     return [];
   }, [data]);
-  console.log(data);
+
+  const stats4 = useMemo(() => {
+    if (data) {
+      return [
+        {
+          name: "PM1",
+          value: data[0].PM1,
+          change: "+4.75%",
+          changeType: "positive",
+        },
+        {
+          name: "PM10",
+          value: data[0].PM10,
+          change: "+10.18%",
+          changeType: "negative",
+        },
+
+        {
+          name: "PM2_5",
+          value: data[0].PM2_5,
+          change: "1.39%",
+          changeType: "positive",
+        },
+        {
+          name: "PM4",
+          value: data[0].PM4,
+          change: "+54.02%",
+          changeType: "negative",
+        },
+      ];
+    } else {
+    }
+    return [];
+  }, [data]);
 
   useEffect(() => {
     if (refresh) {
@@ -425,171 +457,61 @@ export default function Example() {
                 </div>
               </header>
 
-              {/* Stats */}
-              {/* <div className="border-b border-b-gray-900/10 lg:border-t lg:border-t-gray-900/5"> */}
-              <dl className="mx-auto grid max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-6 xl:px-8 gap-8 ">
-                {stats.map((stat, statIdx) => (
+              <dl className="mx-auto grid max-w-7xl mt-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-6 xl:px-8 gap-8 ">
+                {stats1.map((stat, statIdx) => (
                   <RoomCard key={stat.name} stat={stat} />
                 ))}
               </dl>
+              <dl className="mx-auto grid max-w-7xl mt-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-6 xl:px-8 gap-8 ">
+                {stats2.map((stat, statIdx) => (
+                  <RoomCard key={stat.name} stat={stat} />
+                ))}
+              </dl>
+              <dl className="mx-auto grid max-w-7xl mt-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 lg:px-6 xl:px-8 gap-8 ">
+                <div className="flex flex-col gap-8">
+                  <div className="grid grid-cols-2 gap-8">
+                    {stats3.map((stat, statIdx) => (
+                      <RoomCard key={stat.name} stat={stat} />
+                    ))}{" "}
+                  </div>
+                  <RoomCard
+                    key={"Structural"}
+                    stat={{
+                      name: "Structural",
+                      value: `${data[0].Structural} g`,
+                      change: "+4.75%",
+                      changeType: "positive",
+                      icon: (
+                        <Image
+                          src="/stru.png"
+                          alt="My Image"
+                          className="h-8 w-full"
+                          width={500} // Adjust width as needed
+                          height={500} // Adjust height as needed
+                        />
+                      ),
+                    }}
+                  />
+                </div>
+
+                <MyComponent />
+              </dl>
+
+              {/* <div id="main" className="w-96 h-96"></div> */}
+              {/* <div className="flex flex-col gap-8 h-full bg-black items-center justify-between">*/}
+              <div className="flex-1 bg-[#f3f3f7] rounded-md py-4 mx-32 mt-8">
+                <p className="pb-4 -p-2 text-center font-medium text-black">
+                  Particulate Matter Details
+                </p>
+                <dl className="mx-auto grid max-w-7xl mt-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-6 xl:px-8 gap-8 ">
+                  {stats4.map((stat, statIdx) => (
+                    <RoomCard key={stat.name} stat={stat} />
+                  ))}
+                </dl>
+              </div>
+              {/* </div> */}
             </div>
 
-            <header className="pb-4 pt-8 sm:pb-6">
-              <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-6 px-4 sm:flex-nowrap sm:px-6 lg:px-8">
-                <div className="flex-1 ">
-                  {
-                    <div className="flex flex-col gap-8 h-full  items-center justify-between">
-                      <div className="flex-1 bg-[#f3f3f7] rounded-md md:p-4 px-20 py-4">
-                        <p className="pb-4 -p-2 text-center font-medium text-black">
-                          Particulate Matter Details
-                        </p>
-                        <div className="flex md:flex-row flex-col gap-4">
-                          <RoomCard2
-                            stat={{
-                              name: "PM1",
-                              value: `${data[0].PM1.toFixed(2)} µg/m³`,
-                            }}
-                          />
-                          <RoomCard2
-                            stat={{
-                              name: "PM10",
-                              value: `${data[0].PM10.toFixed(2)} µg/m³`,
-                            }}
-                          />
-                          <RoomCard2
-                            stat={{
-                              name: "PM2_5",
-                              value: `${data[0].PM2_5.toFixed(2)} µg/m³`,
-                            }}
-                          />
-                          <RoomCard2
-                            stat={{
-                              name: "PM4",
-                              value: `${data[0].PM4.toFixed(2)} µg/m³`,
-                            }}
-                          />
-                        </div>
-                      </div>
-                      <div className="flex flex-row gap-4 justify-between w-full">
-                        <div className="flex-1">
-                          <RoomCard2
-                            stat={{
-                              name: "Altitude",
-                              value: `${data[0].Altitude.toFixed(2)} KM`,
-                            }}
-                          />
-                        </div>
-                        <div className="flex-1">
-                          <RoomCard2
-                            stat={{
-                              name: "Structural health",
-                              value: `${data[0].Structural} g`,
-                            }}
-                          />
-                        </div>
-                        <div className="flex-1">
-                          <RoomCard2
-                            stat={{
-                              name: "VOC",
-                              value: `${data[0].VOC} ppm`,
-                            }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  }
-                </div>
-                <div className="flex-1 bg-[#f3f3f7] rounded-md md:p-4 p-1">
-                  <div className="flex flex-row  gap-4">
-                    <div className="bg-primary-800 rounded-md relative">
-                      <Image
-                        src="/office.png"
-                        alt="My Image"
-                        className="h-full w-auto relative rounded-md"
-                        width={500} // Adjust width as needed
-                        height={500} // Adjust height as needed
-                      />
-                    </div>
-
-                    <div className="flex flex-col  gap-8 items-center">
-                      <div className="justify-between">
-                        <p className="text-black font-medium float-left">
-                          Environment Details
-                        </p>
-                        <p></p>
-                      </div>
-                      <div className="flex flex-row  gap-4 justify-between">
-                        <RoomCard2
-                          stat={{
-                            name: "Temparature",
-                            value: `${data[0].Temperature.toFixed(2)}°C`,
-                            description: "",
-                            icon: (
-                              <Image
-                                src="/temp.png"
-                                alt="My Image"
-                                className="h-6 w-4 opacity-50 relative rounded-md"
-                                width={500} // Adjust width as needed
-                                height={500} // Adjust height as needed
-                              />
-                            ),
-                          }}
-                        />
-                        <RoomCard2
-                          stat={{
-                            name: "Humidity",
-                            value: `${data[0].Humidity.toFixed(2)} % r.H`,
-                            description: "",
-                            icon: (
-                              <Image
-                                src="/hum.png"
-                                alt="My Image"
-                                className="h-6 w-6 opacity-50 relative rounded-md"
-                                width={500} // Adjust width as needed
-                                height={500} // Adjust height as needed
-                              />
-                            ),
-                          }}
-                        />
-                      </div>
-                      <div className="flex flex-row gap-4 justify-between">
-                        <RoomCard2
-                          stat={{
-                            name: "Ambient Light",
-                            value: `${data[0].Light.toFixed(2)} Klx`,
-                            description: "",
-                            icon: (
-                              <Image
-                                src="/light2.png"
-                                alt="My Image"
-                                className="h-6 w-8 opacity-50 relative rounded-md"
-                                width={500} // Adjust width as needed
-                                height={500} // Adjust height as needed
-                              />
-                            ),
-                          }}
-                        />
-                        <RoomCard2
-                          stat={{
-                            name: "Barometric Pressure",
-                            value: `${data[0].Pressure.toFixed(2)} hPa`,
-                            icon: (
-                              <Image
-                                src="/baro.webp"
-                                alt="My Image"
-                                className="h-6 w-8 opacity-50 relative rounded-md"
-                                width={500} // Adjust width as needed
-                                height={500} // Adjust height as needed
-                              />
-                            ),
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </header>
             <div className="w-full">
               <header className="pb-4 pt-6 mt-20 sm:pb-6 bg-[#f3f3f7]">
                 <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-6 px-4 sm:flex-nowrap sm:px-6 lg:px-8 justify-between">
@@ -604,7 +526,9 @@ export default function Example() {
                           setPeriod(item.name);
                         }}
                         className={
-                          item.name === period ? "text-primary-800" : "text-gray-700"
+                          item.name === period
+                            ? "text-primary-800"
+                            : "text-gray-700"
                         }
                       >
                         {item.name}

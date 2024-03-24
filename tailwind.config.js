@@ -16,7 +16,7 @@ module.exports = {
           100: "#D1E6FA",
           300: "#D1E6FA",
           500: "#69B2F8",
-          800:"#0168FA",
+          800: "#0168FA",
         }
       },
       backgroundImage: {

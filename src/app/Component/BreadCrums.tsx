@@ -1,7 +1,7 @@
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid'
 
 const pages = [
-  { name: 'Office 1', href: '#', current: true },
+  { name: 'Gravity Office', href: '#', current: true },
 ]
 
 export default function BreadCrums() {

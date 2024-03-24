@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { ChevronDownIcon, DocumentArrowDownIcon } from "@heroicons/react/24/outline";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -11,6 +11,7 @@ export default function DropDown() {
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+          <DocumentArrowDownIcon  className="mr-1 h-5 w-5 text-primary-800" />
           Generate report
           <ChevronDownIcon
             className="-mr-1 h-5 w-5 text-gray-400"

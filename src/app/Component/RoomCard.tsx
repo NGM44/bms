@@ -18,10 +18,7 @@ const RoomCard = ({stat}:{stat: any}) => {
       className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 shadow sm:px-6 sm:pt-6 border border-slate-50"
     >
       <dt>
-        {stat?.icon && <div className="absolute rounded-md bg-primary-500 p-3">
-       {stat.icon}
-          {/* <item.icon className="h-6 w-6 text-white" aria-hidden="true" /> */}
-        </div>}
+        
         <p className="truncate text-sm font-medium text-gray-500">
           {stat.name}
         </p>
@@ -53,9 +50,13 @@ const RoomCard = ({stat}:{stat: any}) => {
           {stat.change}
         </p>
       </dd>
-      <p className="truncate text-xs font-medium text-gray-500 pb-4">
+      {!stat?.icon ? <p className="truncate text-xs font-medium text-gray-500 pb-4">
           Ideal: below 200
-        </p>
+        </p>:
+        <div className="rounded-md">
+       {stat.icon}
+         
+        </div>}
     </div>
   );
 };
