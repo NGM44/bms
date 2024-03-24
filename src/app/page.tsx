@@ -216,14 +216,14 @@ export default function Example() {
       return [
         {
           name: "AQI",
-          value: `${data[0].VOC} ppm`,
+          value: `${data[0].AQI}`,
           change: "+4.75%",
           changeType: "positive",
         },
 
         {
           name: "NOx",
-          value: `${data[0].Noise} dB`,
+          value: `${data[0].NOx}`,
           change: "+10.18%",
           changeType: "negative",
         },
