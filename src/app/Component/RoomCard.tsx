@@ -15,7 +15,7 @@ const RoomCard = ({stat}:{stat: any}) => {
   return (
     <div
       key={stat.name}
-      className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 shadow sm:px-6 sm:pt-6 border border-slate-50"
+      className="relative overflow-hidden rounded-sm bg-white px-4 pt-5 shadow sm:px-6 sm:pt-6 border border-slate-100"
     >
       <dt>
         

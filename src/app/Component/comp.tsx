@@ -9,7 +9,7 @@ export class MyComponent extends Component {
 
   render() {
     return (
-      <div className="w-auto h-auto  bg-white border shadow flex flex-row">
+      <div className="w-auto h-auto  bg-white border rounded-sm shadow flex flex-row">
         <div id="main" className="w-64 h-64 items-center flex-1"></div>
         <div className="w-72 py-12 px-4">
           <p className="font-bold text-gray-500 text-lg pb-4">Productivity Meter</p>
