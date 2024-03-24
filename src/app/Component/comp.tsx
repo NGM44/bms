@@ -10,12 +10,12 @@ export class MyComponent extends Component {
   render() {
     return (
       <div className="w-auto h-auto  bg-white border rounded shadow flex flex-row">
-        <div id="main" className="w-64 h-56 items-center flex-1"></div>
-        <div className="w-72 py-8 px-4">
-          <p className="font-bold text-gray-500 text-lg pb-4">
+        <div id="main" className="w-64 h-60 items-center flex-1"></div>
+        <div className="w-72 py-4 pl-2 pr-6">
+          <p className="font-bold text-gray-500 text-lg pb-4 pt-4">
             Productivity Meter
           </p>
-          <p className="text-gray-800 text-xs pb-8 text-justify">
+          <p className="text-gray-800 text-xs pb-8">
             Leveraging sensor data, Airscale's ML algorithm generates a
             productivity rating between 0 to 100 for indoor environments,
             offering valuable insights into how these spaces impact human

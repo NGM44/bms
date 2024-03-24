@@ -101,13 +101,12 @@ export default function Footer() {
         <div className="flex flex-row items-center justify-between mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24">
         <div className="items-center flex flex-row">
               <Image
-                src="/AirscaleLogo.png"
+                src="/image1.png"
                 alt="My Image"
                 className="h-8 w-auto"
                 width={500} // Adjust width as needed
                 height={500} // Adjust height as needed
               />
-              Airscale
             </div>
           <p className="text-xs leading-5 text-gray-500">
             &copy; 2024 Airscale, Inc. All rights reserved.

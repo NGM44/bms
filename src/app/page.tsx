@@ -141,6 +141,7 @@ export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [data, setData] = useState<AirScaleModel[]>();
   const [refresh, setRefresh] = useState(true);
+  const [lastUpdated,setLastUpdated] = useState("");
   const [period, setPeriod] = useState("Last 7 days");
   const stats1 = useMemo(() => {
     if (data) {
@@ -247,32 +248,32 @@ export default function Example() {
       return [
         {
           name: "PM1",
-          value: data[0].PM1,
+          value: `${data[0].PM1.toFixed(3)} µg/m³`,
           change: "+4.75%",
           changeType: "positive",
-          desp: "Below 10 µg/m^3"
+          desp: "Below 10 µg/m³"
         },
         {
           name: "PM10",
-          value: data[0].PM10,
+          value: `${data[0].PM10.toFixed(3)} µg/m³`,
           change: "+10.18%",
           changeType: "negative",
-          desp: "Below 20 µg/m^3"
+          desp: "Below 20 µg/m³"
         },
 
         {
           name: "PM2_5",
-          value: data[0].PM2_5,
+          value: `${data[0].PM2_5.toFixed(3)} µg/m³`,
           change: "1.39%",
           changeType: "positive",
-          desp: "Below 12 µg/m^3 (for optimal health)"
+          desp: "Below 12 µg/m³ (for optimal health)"
         },
         {
           name: "PM4",
-          value: data[0].PM4,
+          value: `${data[0].PM4.toFixed(3)} µg/m³`,
           change: "+54.02%",
           changeType: "negative",
-          desp: "Below 15 µg/m^3"
+          desp: "Below 15 µg/m³"
         },
       ];
     } else {
@@ -303,6 +304,7 @@ export default function Example() {
             console.log("errors", errors);
           });
         setRefresh(false);
+        setLastUpdated(formatDateTime()); 
       }, 2000);
     }
   }, [refresh]);
@@ -355,15 +357,15 @@ export default function Example() {
                   />
                 </button> */}
                 <Image
-                  src="/AirscaleLogo.png"
+                  src="/image1.png"
                   alt="My Image"
                   className="h-10 w-auto"
                   width={500} // Adjust width as needed
                   height={500} // Adjust height as needed
                 />
-                <h1 className="text-lg font-semibold leading-7 text-gray-900">
-                  Airscale
-                </h1>
+                {/* <h1 className="text-lg font-semibold leading-7 text-gray-900">
+                  Dashboard
+                </h1> */}
                 {/* <img
               className="h-8 w-auto"
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -474,7 +476,7 @@ export default function Example() {
                   </div>
                   <div className="flex flex-row items-center gap-4">
                     <p className="text-xs text-gray-400 pt-3 items-baseline">
-                      Last updated: {formatDateTime()}
+                      Last updated: {lastUpdated}
                     </p>
                     <div
                       onClick={() => {
@@ -531,7 +533,7 @@ export default function Example() {
               {/* <div className="flex flex-col gap-8 h-full bg-black items-center justify-between">*/}
               <div className="flex-1 bg-white shadow border border-slate-100 rounded-md py-4 mt-8">
                 <p className="pb-4 -p-2 text-center font-medium text-black">
-                  Particulate Matter Details
+                  Particulate Matter
                 </p>
                 <dl className="mx-auto grid max-w-7xl mt-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-6 xl:px-8 gap-8 ">
                   {stats4.map((stat, statIdx) => (
