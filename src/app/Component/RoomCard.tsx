@@ -51,7 +51,7 @@ const RoomCard = ({stat}:{stat: any}) => {
         </p>
       </dd>
       {!stat?.icon ? <p className="truncate text-xs font-medium text-gray-500 pb-4">
-          Ideal: below 200
+          {stat.desp}
         </p>:
         <div className="rounded-md">
        {stat.icon}

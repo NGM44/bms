@@ -150,18 +150,21 @@ export default function Example() {
           value: `${data[0].Temperature.toFixed(2)}°C`,
           change: "+4.75%",
           changeType: "positive",
+          desp: "20-24°C (68-75°F) for comfort, but adjustable based on preference and activities."
         },
         {
           name: "Humidity",
           value: `${data[0].Humidity.toFixed(2)} % r.H`,
           change: "+10.18%",
           changeType: "negative",
+          desp:"30-60% RH for comfort and to prevent mold growth"
         },
         {
           name: "CO2",
           value: `${data[0].CO2} ppm`,
           change: "1.39%",
           changeType: "positive",
+          desp:"Below 1000 parts per million (ppm) for optimal indoor air quality."
         },
 
         {
@@ -169,6 +172,7 @@ export default function Example() {
           value: `${data[0].Pressure.toFixed(2)} hPa`,
           change: "+54.02%",
           changeType: "negative",
+          desp: "Typically ranges around 1013 millibars (mb)"
         },
       ];
     } else {
@@ -184,6 +188,7 @@ export default function Example() {
           value: `${data[0].VOC} ppm`,
           change: "+4.75%",
           changeType: "positive",
+          desp: "Below 0.3 mg/m^3 for most VOCs to ensure good air quality."
         },
 
         {
@@ -191,6 +196,7 @@ export default function Example() {
           value: `${data[0].Noise} dB`,
           change: "+10.18%",
           changeType: "negative",
+          desp: "Below 45-55 decibels (dB) for indoor environments, although acceptable levels can vary based on the activity and preference of occupants."
         },
 
         {
@@ -198,6 +204,7 @@ export default function Example() {
           value: `${data[0].Light.toFixed(2)} Klx`,
           change: "1.39%",
           changeType: "positive",
+          desp: "500-1000 lux for general indoor spaces."
         },
         {
           name: "Altitude",
@@ -219,6 +226,7 @@ export default function Example() {
           value: `${data[0].AQI}`,
           change: "+4.75%",
           changeType: "positive",
+          desp: "Ideally Below 50."
         },
 
         {
@@ -226,6 +234,7 @@ export default function Example() {
           value: `${data[0].NOx}`,
           change: "+10.18%",
           changeType: "negative",
+          desp: "Below 0.05 ppm for comfort and health."
         },
       ];
     } else {
@@ -241,12 +250,14 @@ export default function Example() {
           value: data[0].PM1,
           change: "+4.75%",
           changeType: "positive",
+          desp: "Below 10 µg/m^3"
         },
         {
           name: "PM10",
           value: data[0].PM10,
           change: "+10.18%",
           changeType: "negative",
+          desp: "Below 20 µg/m^3"
         },
 
         {
@@ -254,12 +265,14 @@ export default function Example() {
           value: data[0].PM2_5,
           change: "1.39%",
           changeType: "positive",
+          desp: "Below 12 µg/m^3 (for optimal health)"
         },
         {
           name: "PM4",
           value: data[0].PM4,
           change: "+54.02%",
           changeType: "negative",
+          desp: "Below 15 µg/m^3"
         },
       ];
     } else {
@@ -294,6 +307,25 @@ export default function Example() {
     }
   }, [refresh]);
 
+  const [historic,setHistoric] = useState(false);
+  function formatDateTime() {
+    const date = new Date();
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];  
+  
+    const month = monthNames[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+  
+    hours = hours % 12;  
+    hours = hours ? hours : 12; // 12 instead of 0
+    minutes = minutes < 10 ? 0+minutes : minutes; 
+  
+    const formattedDateTime = `${month} ${day} ${year}, ${hours}:${minutes} ${ampm}`;
+    return formattedDateTime;
+  }
   return (
     <>
       {refresh && (
@@ -311,7 +343,7 @@ export default function Example() {
           <header className="absolute inset-x-0 top-0 z-50 flex h-16 border-b border-gray-900/10">
             <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
               <div className="flex flex-1 items-center gap-x-6">
-                <button
+                {/* <button
                   type="button"
                   className="-m-3 p-3 md:hidden"
                   onClick={() => setMobileMenuOpen(true)}
@@ -321,15 +353,15 @@ export default function Example() {
                     className="h-5 w-5 text-gray-900"
                     aria-hidden="true"
                   />
-                </button>
+                </button> */}
                 <Image
                   src="/AirscaleLogo.png"
                   alt="My Image"
-                  className="h-8 w-auto"
+                  className="h-10 w-auto"
                   width={500} // Adjust width as needed
                   height={500} // Adjust height as needed
                 />
-                <h1 className="text-base font-semibold leading-7 text-gray-900">
+                <h1 className="text-lg font-semibold leading-7 text-gray-900">
                   Airscale
                 </h1>
                 {/* <img
@@ -347,6 +379,9 @@ export default function Example() {
               </nav>
               <div className="flex flex-1 items-center justify-end gap-x-8">
                 <button
+                onClick={()=>{
+                  setHistoric(!historic);
+                }}
                   type="button"
                   className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
                 >
@@ -438,6 +473,9 @@ export default function Example() {
                     </div> */}
                   </div>
                   <div className="flex flex-row items-center gap-4">
+                    <p className="text-xs text-gray-400 pt-3 items-baseline">
+                      Last updated: {formatDateTime()}
+                    </p>
                     <div
                       onClick={() => {
                         setRefresh(true);
@@ -481,15 +519,7 @@ export default function Example() {
                       value: `${data[0].Structural} g`,
                       change: "+4.75%",
                       changeType: "positive",
-                      icon: (
-                        <Image
-                          src="/stru.png"
-                          alt="My Image"
-                          className="h-8 w-full"
-                          width={500} // Adjust width as needed
-                          height={500} // Adjust height as needed
-                        />
-                      ),
+                      desp: ""
                     }}
                   />
                 </div>
@@ -499,7 +529,7 @@ export default function Example() {
 
               {/* <div id="main" className="w-96 h-96"></div> */}
               {/* <div className="flex flex-col gap-8 h-full bg-black items-center justify-between">*/}
-              <div className="flex-1 bg-[#f3f3f7] rounded-md py-4 mx-32 mt-8">
+              <div className="flex-1 bg-white shadow border border-slate-100 rounded-md py-4 mt-8">
                 <p className="pb-4 -p-2 text-center font-medium text-black">
                   Particulate Matter Details
                 </p>
@@ -511,43 +541,44 @@ export default function Example() {
               </div>
               {/* </div> */}
             </div>
-
-            <div className="w-full">
-              <header className="pb-4 pt-6 mt-20 sm:pb-6 bg-[#f3f3f7]">
-                <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-6 px-4 sm:flex-nowrap sm:px-6 lg:px-8 justify-between">
-                  <h1 className="text-base font-semibold leading-7 text-gray-900">
-                    Historical Information
-                  </h1>
-                  <div className="order-last flex w-full gap-x-8 text-sm cursor-pointer font-semibold leading-6 sm:order-none sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6 sm:leading-7">
-                    {secondaryNavigation.map((item) => (
-                      <div
-                        key={item.name}
-                        onClick={() => {
-                          setPeriod(item.name);
-                        }}
-                        className={
-                          item.name === period
-                            ? "text-primary-800"
-                            : "text-gray-700"
-                        }
-                      >
-                        {item.name}
-                      </div>
-                    ))}
+            {historic && <div>
+              <div className="w-full">
+                <header className="pb-4 pt-6 mt-20 sm:pb-6 bg-[#f3f3f7]">
+                  <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-6 px-4 sm:flex-nowrap sm:px-6 lg:px-8 justify-between">
+                    <h1 className="text-base font-semibold leading-7 text-gray-900">
+                      Historical Information
+                    </h1>
+                    <div className="order-last flex w-full gap-x-8 text-sm cursor-pointer font-semibold leading-6 sm:order-none sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6 sm:leading-7">
+                      {secondaryNavigation.map((item) => (
+                        <div
+                          key={item.name}
+                          onClick={() => {
+                            setPeriod(item.name);
+                          }}
+                          className={
+                            item.name === period
+                              ? "text-primary-800"
+                              : "text-gray-700"
+                          }
+                        >
+                          {item.name}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </header>
+              </div>
+              <header className="pb-4 pt-6 sm:pb-6">
+                <div className="mx-auto flex max-w-7xl md:flex-row flex-col items-center gap-6 px-4 sm:flex-nowrap sm:px-6 lg:px-8">
+                  <div className="flex-1">
+                    <AreaChart />
+                  </div>
+                  <div className="flex-1">
+                    <BarChart />
                   </div>
                 </div>
               </header>
-            </div>
-            <header className="pb-4 pt-6 sm:pb-6">
-              <div className="mx-auto flex max-w-7xl md:flex-row flex-col items-center gap-6 px-4 sm:flex-nowrap sm:px-6 lg:px-8">
-                <div className="flex-1">
-                  <AreaChart />
-                </div>
-                <div className="flex-1">
-                  <BarChart />
-                </div>
-              </div>
-            </header>
+            </div>}
           </main>
         </div>
       )}
