@@ -16,3 +16,8 @@ export type AirScaleModel = {
   VOC: number;
   id: string;
 };
+
+export type VayuGunaModel = {
+  Temperature: number;
+  Humidity: number;
+};

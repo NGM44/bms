@@ -1,145 +1,35 @@
 "use client";
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { get, ref } from "firebase/database";
 import { database } from "../firebaseConfig";
-import { Dialog, Menu, Transition } from "@headlessui/react";
-import {
-  ArrowDownCircleIcon,
-  ArrowPathIcon,
-  ArrowUpCircleIcon,
-  Bars3Icon,
-  EllipsisHorizontalIcon,
-  PlusSmallIcon,
-} from "@heroicons/react/20/solid";
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  BellIcon,
-  ChevronRightIcon,
-  ChevronUpDownIcon,
-  TvIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-import { AirScaleModel } from "../model";
+import { Dialog } from "@headlessui/react";
+import { ArrowPathIcon } from "@heroicons/react/20/solid";
+import { BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { AirScaleModel, VayuGunaModel } from "../model";
 import BarChart from "../Component/chart";
 import AreaChart from "../Component/AreaChart";
-import GridInfo from "../Component/grid";
 import DropDown from "../Component/dropdown";
 import Image from "next/image";
 import RoomCard from "../Component/RoomCard";
-import Office from "../Component/office";
-import RoomCard2 from "../Component/RoomCard2";
 import BreadCrums from "../Component/BreadCrums";
-import { progressChart } from "../Component/AQIMeter";
 import { MyComponent } from "../Component/comp";
+import Link from "next/link";
 
 const navigation = [{ name: "", href: "#" }];
 const secondaryNavigation = [
   { name: "Last 7 days", href: "#", current: true },
   { name: "Last 30 days", href: "#", current: false },
-  { name: "All-time", href: "#", current: false },
+  { name: "Last 90 Days", href: "#", current: false },
 ];
-
-const days = [
-  {
-    date: "Today",
-    dateTime: "2023-03-22",
-    transactions: [
-      {
-        id: 1,
-        invoiceNumber: "00012",
-        href: "#",
-        amount: "$7,600.00 USD",
-        tax: "$500.00",
-        status: "Paid",
-        client: "Reform",
-        description: "Website redesign",
-        icon: ArrowUpCircleIcon,
-      },
-      {
-        id: 2,
-        invoiceNumber: "00011",
-        href: "#",
-        amount: "$10,000.00 USD",
-        status: "Withdraw",
-        client: "Tom Cook",
-        description: "Salary",
-        icon: ArrowDownCircleIcon,
-      },
-      {
-        id: 3,
-        invoiceNumber: "00009",
-        href: "#",
-        amount: "$2,000.00 USD",
-        tax: "$130.00",
-        status: "Overdue",
-        client: "Tuple",
-        description: "Logo design",
-        icon: ArrowPathIcon,
-      },
-    ],
-  },
-  {
-    date: "Yesterday",
-    dateTime: "2023-03-21",
-    transactions: [
-      {
-        id: 4,
-        invoiceNumber: "00010",
-        href: "#",
-        amount: "$14,000.00 USD",
-        tax: "$900.00",
-        status: "Paid",
-        client: "SavvyCal",
-        description: "Website redesign",
-        icon: ArrowUpCircleIcon,
-      },
-    ],
-  },
-];
-const clients = [
-  {
-    id: 1,
-    name: "Tuple",
-    imageUrl: "https://tailwindui.com/img/logos/48x48/tuple.svg",
-    lastInvoice: {
-      date: "December 13, 2022",
-      dateTime: "2022-12-13",
-      amount: "$2,000.00",
-      status: "Overdue",
-    },
-  },
-  {
-    id: 2,
-    name: "SavvyCal",
-    imageUrl: "https://tailwindui.com/img/logos/48x48/savvycal.svg",
-    lastInvoice: {
-      date: "January 22, 2023",
-      dateTime: "2023-01-22",
-      amount: "$14,000.00",
-      status: "Paid",
-    },
-  },
-  {
-    id: 3,
-    name: "Reform",
-    imageUrl: "https://tailwindui.com/img/logos/48x48/reform.svg",
-    lastInvoice: {
-      date: "January 23, 2023",
-      dateTime: "2023-01-23",
-      amount: "$7,600.00",
-      status: "Paid",
-    },
-  },
-];
-
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [data, setData] = useState<AirScaleModel[]>();
+  const [data, setData] = useState<VayuGunaModel[]>([
+    {
+      Temperature: 0,
+      Humidity: 0,
+    },
+  ]);
   const [refresh, setRefresh] = useState(true);
   const [lastUpdated, setLastUpdated] = useState("");
   const [period, setPeriod] = useState("Last 7 days");
@@ -147,7 +37,7 @@ export default function Example() {
     if (data) {
       return [
         {
-          name: "Temparature",
+          name: "Temperature",
           value: `${data[0].Temperature.toFixed(2)}°C`,
           change: "+4.75%",
           changeType: "positive",
@@ -160,121 +50,6 @@ export default function Example() {
           changeType: "negative",
           desp: "30-60% RH for comfort and to prevent mold growth",
         },
-        {
-          name: "CO2",
-          value: `${data[0].CO2} ppm`,
-          change: "1.39%",
-          changeType: "positive",
-          desp: "Below 1000 parts per million (ppm) for optimal indoor air quality.",
-        },
-
-        {
-          name: "Barometric Pressure",
-          value: `${data[0].Pressure.toFixed(2)} hPa`,
-          change: "+54.02%",
-          changeType: "negative",
-          desp: "Typically ranges around 1013 millibars (mb)",
-        },
-      ];
-    } else {
-    }
-    return [];
-  }, [data]);
-
-  const stats2 = useMemo(() => {
-    if (data) {
-      return [
-        {
-          name: "VOC",
-          value: `${data[0].VOC} ppm`,
-          change: "+4.75%",
-          changeType: "positive",
-          desp: "Below 0.3 mg/m^3 for most VOCs to ensure good air quality.",
-        },
-
-        {
-          name: "Noise Level",
-          value: `${data[0].Noise} dB`,
-          change: "+10.18%",
-          changeType: "negative",
-          desp: "Below 45-55 decibels (dB) for indoor environments, although acceptable levels can vary based on the activity and preference of occupants.",
-        },
-
-        {
-          name: "Ambient Light",
-          value: `${data[0].Light.toFixed(2)} Klx`,
-          change: "1.39%",
-          changeType: "positive",
-          desp: "500-1000 lux for general indoor spaces.",
-        },
-        {
-          name: "Altitude",
-          value: data[0].Altitude,
-          change: "+54.02%",
-          changeType: "negative",
-        },
-      ];
-    } else {
-    }
-    return [];
-  }, [data]);
-
-  const stats3 = useMemo(() => {
-    if (data) {
-      return [
-        {
-          name: "AQI",
-          value: `${data[0].AQI}`,
-          change: "+4.75%",
-          changeType: "positive",
-          desp: "Ideally Below 50.",
-        },
-
-        {
-          name: "NOx",
-          value: `${data[0].NOx}`,
-          change: "+10.18%",
-          changeType: "negative",
-          desp: "Below 0.05 ppm for comfort and health.",
-        },
-      ];
-    } else {
-    }
-    return [];
-  }, [data]);
-
-  const stats4 = useMemo(() => {
-    if (data) {
-      return [
-        {
-          name: "PM1",
-          value: `${data[0].PM1.toFixed(3)} µg/m³`,
-          change: "+4.75%",
-          changeType: "positive",
-          desp: "Below 10 µg/m³",
-        },
-        {
-          name: "PM10",
-          value: `${data[0].PM10.toFixed(3)} µg/m³`,
-          change: "+10.18%",
-          changeType: "negative",
-          desp: "Below 20 µg/m³",
-        },
-
-        {
-          name: "PM2_5",
-          value: `${data[0].PM2_5.toFixed(3)} µg/m³`,
-          change: "1.39%",
-          changeType: "positive",
-          desp: "Below 12 µg/m³ (for optimal health)",
-        },
-        {
-          name: "PM4",
-          value: `${data[0].PM4.toFixed(3)} µg/m³`,
-          change: "+54.02%",
-          changeType: "negative",
-          desp: "Below 15 µg/m³",
-        },
       ];
     } else {
     }
@@ -286,30 +61,30 @@ export default function Example() {
       setTimeout(function () {
         const usersRef = ref(database);
 
-        get(usersRef)
-          .then((snapshot) => {
-            if (snapshot.exists()) {
-              console.log("snapshot", snapshot);
-              const usersArray = Object.entries(snapshot.val()).map(
-                ([id, data]: any) => ({
-                  id,
-                  ...data,
-                })
-              );
-              setData(usersArray);
-              console.log("snapshot", usersArray);
-            }
-          })
-          .catch((errors) => {
-            console.log("errors", errors);
-          });
+        // get(usersRef)
+        //   .then((snapshot) => {
+        //     if (snapshot.exists()) {
+        //       console.log("snapshot", snapshot);
+        //       const usersArray = Object.entries(snapshot.val()).map(
+        //         ([id, data]: any) => ({
+        //           id,
+        //           ...data,
+        //         })
+        //       );
+        //       setData(usersArray);
+        //       console.log("snapshot", usersArray);
+        //     }
+        //   })
+        //   .catch((errors) => {
+        //     console.log("errors", errors);
+        //   });
         setRefresh(false);
         setLastUpdated(formatDateTime());
-      }, 2000);
+      }, 500);
     }
   }, [refresh]);
 
-  const [historic, setHistoric] = useState(false);
+  const [historic, setHistoric] = useState(true);
   function formatDateTime() {
     const date = new Date();
     const monthNames = [
@@ -358,32 +133,13 @@ export default function Example() {
           <header className="absolute inset-x-0 top-0 z-50 flex h-16 border-b border-gray-900/10">
             <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
               <div className="flex flex-1 items-center gap-x-6">
-                {/* <button
-                  type="button"
-                  className="-m-3 p-3 md:hidden"
-                  onClick={() => setMobileMenuOpen(true)}
+               
+                <Link
+                  href="/"
+                  className="text-primary-800 font-bold text-lg -tracking-tight"
                 >
-                  <span className="sr-only">Open main menu</span>
-                  <Bars3Icon
-                    className="h-5 w-5 text-gray-900"
-                    aria-hidden="true"
-                  />
-                </button> */}
-                <Image
-                  src="/image1.png"
-                  alt="My Image"
-                  className="h-10 w-auto"
-                  width={500} // Adjust width as needed
-                  height={500} // Adjust height as needed
-                />
-                {/* <h1 className="text-lg font-semibold leading-7 text-gray-900">
-                  Dashboard
-                </h1> */}
-                {/* <img
-              className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt="Your Company"
-            /> */}
+                  Vayuguna
+                </Link>
               </div>
               <nav className="hidden md:flex md:gap-x-11 md:text-sm md:font-semibold md:leading-6 md:text-gray-700">
                 {navigation.map((item, itemIdx) => (
@@ -412,11 +168,6 @@ export default function Example() {
                     width={500} // Adjust width as needed
                     height={500} // Adjust height as needed
                   />
-                  {/* <img
-                className="h-8 w-8 rounded-full bg-gray-800"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt=""
-              /> */}
                 </a>
               </div>
             </div>
@@ -464,30 +215,13 @@ export default function Example() {
           </header>
 
           <main>
-            {/* <div className="relative isolate overflow-hidden pt-16"> */}
-            {/* Secondary navigation */}
             <div className="pt-16">
               <header className="pb-4 pt-6 sm:pb-6">
                 <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-6 px-4 sm:flex-nowrap sm:px-6 lg:px-8 justify-between">
                   <div>
                     <BreadCrums />
-                    {/* <div className="flex flex-row items-center">
-                      <h1 className="text-base font-semibold leading-7 mr-2 text-gray-900">
-                        Office 1
-                      </h1>
-                      
-                    </div>
-
-                    <div className="flex flex-row items-center">
-                      <h1 className="text-base font-semibold leading-7 mr-2 text-gray-900">
-                        Updated at
-                      </h1>
-                      <div className="order-last cursor-pointer flex w-full gap-x-8 text-sm font-semibold leading-6 sm:order-none sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6 sm:leading-7">
-                        24 Mar 2024, 12:47 PM
-                      </div>
-                    </div> */}
                   </div>
-                  <div className="flex flex-row items-center gap-4">
+                  <div className="sm:block hidden flex flex-row items-center gap-4">
                     <p className="text-xs text-gray-400 pt-3 items-baseline">
                       Last updated: {lastUpdated}
                     </p>
@@ -515,46 +249,6 @@ export default function Example() {
                   <RoomCard key={stat.name} stat={stat} />
                 ))}
               </dl>
-              <dl className="mx-auto grid max-w-7xl mt-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-6 xl:px-8 gap-8 ">
-                {stats2.map((stat, statIdx) => (
-                  <RoomCard key={stat.name} stat={stat} />
-                ))}
-              </dl>
-              <dl className="mx-auto grid max-w-7xl mt-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 lg:px-6 xl:px-8 gap-8 ">
-                <div className="flex flex-col gap-8">
-                  <div className="grid grid-cols-2 gap-8">
-                    {stats3.map((stat, statIdx) => (
-                      <RoomCard key={stat.name} stat={stat} />
-                    ))}{" "}
-                  </div>
-                  <RoomCard
-                    key={"Structural"}
-                    stat={{
-                      name: "Structural",
-                      value: `${data[0].Structural} g`,
-                      change: "+4.75%",
-                      changeType: "positive",
-                      desp: "",
-                    }}
-                  />
-                </div>
-
-                <MyComponent />
-              </dl>
-
-              {/* <div id="main" className="w-96 h-96"></div> */}
-              {/* <div className="flex flex-col gap-8 h-full bg-black items-center justify-between">*/}
-              <div className="flex-1 bg-white shadow border border-slate-100 rounded-md py-4 mt-8">
-                <p className="pb-4 -p-2 text-center font-medium text-black">
-                  Particulate Matter
-                </p>
-                <dl className="mx-auto grid max-w-7xl mt-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-6 xl:px-8 gap-8 ">
-                  {stats4.map((stat, statIdx) => (
-                    <RoomCard key={stat.name} stat={stat} />
-                  ))}
-                </dl>
-              </div>
-              {/* </div> */}
             </div>
             {historic && (
               <div>
@@ -585,13 +279,13 @@ export default function Example() {
                   </header>
                 </div>
                 <header className="pb-4 pt-6 sm:pb-6">
-                  <div className="mx-auto flex max-w-7xl md:flex-row flex-col items-center gap-6 px-4 sm:flex-nowrap sm:px-6 lg:px-8">
-                    <div className="flex-1">
+                  <div className="mx-auto w-full flex max-w-7xl md:flex-row flex-col items-center gap-6 px-0 sm:flex-nowrap sm:px-6 lg:px-8">
+                    {/* <div className="flex-1"> */}
                       <AreaChart />
-                    </div>
-                    <div className="flex-1">
+                    {/* </div> */}
+                    {/* <div className="flex-1"> */}
                       <BarChart />
-                    </div>
+                    {/* </div> */}
                   </div>
                 </header>
               </div>

@@ -1,6 +1,7 @@
 import ReactECharts from "echarts-for-react";
 import * as _ from "lodash";
 import React from "react";
+import DaysFilter from "./tab";
 
 const BarChart = () => {
   const option = {
@@ -82,12 +83,13 @@ const BarChart = () => {
   };
 
   return (
-    <div className="bg-white border border-gray-200 shadow-md rounded-md px-4 py-2">
-      <div>
-        <p className="font-medium">AQI Reading</p>
-        <p className="text-xs text-gray-500">
-          Value of AQI should be maintained below 250 for safety
-        </p>
+    <div className="bg-white border border-gray-200 shadow-md rounded-md w-full px-4 py-2 flex-1">
+      <div className="flex flex-row">
+        <div>
+          <p className="font-medium">Humidity Reading</p>
+          <p className="text-xs text-gray-500">Humidity reading in r.H</p>
+        </div>
+        {/* <DaysFilter /> */}
       </div>
       <ReactECharts option={option} />
     </div>

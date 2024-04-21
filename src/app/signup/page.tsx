@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
-import { toast } from "sonner";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "../firebaseConfig";
 import router from "next/router";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -23,20 +23,26 @@ const SignUp = () => {
         setPassword("");
 
         toast("Logged in Successfully", {
-          description: "",
-          action: {
-            label: "Undo",
-            onClick: () => console.log("Undo"),
-          },
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
         });
         router.push("/dashboard");
       } else {
         toast("Logged in Successfully", {
-          description: "",
-          action: {
-            label: "Undo",
-            onClick: () => console.log("Undo"),
-          },
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
         });
       }
     } catch (e) {
@@ -54,15 +60,18 @@ const SignUp = () => {
         <body class="h-full">
         ```
       */}
-      <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8 mx-4">
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-white px-6 py-12 shadow-lg sm:rounded-lg sm:px-12 border border-gray-200">
             <div className="sm:mx-auto sm:w-full sm:max-w-md pb-8">
-              <img
-                className=" h-10 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt="Your Company"
-              />
+              <Link
+                href="/"
+                className="text-primary-800 font-bold text-lg -tracking-tight"
+              >
+                <span className="rounded-full bg-indigo-600/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-600 ring-1 ring-inset ring-indigo-600/10">
+                  Vayuguna
+                </span>
+              </Link>
               <h2 className="mt-6 text-left text-2xl font-bold leading-9 tracking-tight text-gray-900">
                 Sign up
               </h2>
@@ -83,7 +92,7 @@ const SignUp = () => {
                     autoComplete="email"
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -103,7 +112,7 @@ const SignUp = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     // autoComplete="current-password"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -122,7 +131,7 @@ const SignUp = () => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     // autoComplete="confirm-password"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
