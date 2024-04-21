@@ -16,7 +16,7 @@ export class MyComponent extends Component {
             Productivity Meter
           </p>
           <p className="text-gray-800 text-xs pb-8">
-            Leveraging sensor data, Airscale&apos;s ML algorithm generates a
+            Leveraging sensor data, Vayuguna&apos;s ML algorithm generates a
             productivity rating between 0 to 100 for indoor environments,
             offering valuable insights into how these spaces impact human
             cognitive focus and comfort.

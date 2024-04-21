@@ -12,6 +12,7 @@
   }
   ```
 */
+"use client";
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -371,7 +372,7 @@ export default function Example() {
               <div className="mt-24 sm:mt-32 lg:mt-16">
                 <a href="#" className="inline-flex space-x-6">
                   <span className="rounded-full bg-indigo-600/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-600 ring-1 ring-inset ring-indigo-600/10">
-                  Vayuguna
+                    Vayuguna
                   </span>
                   <span className="inline-flex items-center space-x-2 text-sm font-medium leading-6 text-gray-600">
                     <span>Just shipped v1.0</span>
@@ -382,8 +383,8 @@ export default function Example() {
                   </span>
                 </a>
               </div>
-              <h1 className="mt-10 max-w-lg text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                Fixing Air Quality with AI Inteligence
+              <h1 className="mt-10 max-w-lg text-4xl font-bold text-balance tracking-tight text-gray-900 sm:text-6xl">
+                Fixing Air Quality with AI
               </h1>
               <p className="mt-6 text-lg leading-8 text-gray-600">
                 We go beyond basic air quality monitoring, measuring a
@@ -391,7 +392,7 @@ export default function Example() {
                 PM2.5, PM4, PM10, VOCs, NOx, humidity, temperature, light,
                 noise, pressure, and structural factors – to give you a
                 hyper-accurate picture of your environment and suggestion to
-                improve with our Airscale AI.
+                improve with our Vayuguna AI.
               </p>
               <div className="mt-10 flex items-center gap-x-6">
                 <a
@@ -445,7 +446,7 @@ export default function Example() {
         </div>
 
         {/* Logo cloud */}
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        {/* <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-12 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 sm:gap-y-14 lg:mx-0 lg:max-w-none lg:grid-cols-5">
             <img
               className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
@@ -483,10 +484,10 @@ export default function Example() {
               height={48}
             />
           </div>
-        </div>
+        </div> */}
 
         {/* Feature section */}
-        <div className="mx-auto mt-32 max-w-7xl sm:mt-56 sm:px-6 lg:px-8">
+        {/* <div className="mx-auto mt-32 max-w-7xl sm:mt-56 sm:px-6 lg:px-8">
           <div className="relative isolate overflow-hidden bg-gray-900 px-6 py-20 sm:rounded-3xl sm:px-10 sm:py-24 lg:py-24 xl:px-24">
             <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-center lg:gap-y-0">
               <div className="lg:row-start-2 lg:max-w-md">
@@ -538,10 +539,10 @@ export default function Example() {
               />
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Feature section */}
-        <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
+        {/* <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-base font-semibold leading-7 text-indigo-600">
               Deploy faster
@@ -581,10 +582,10 @@ export default function Example() {
               ))}
             </dl>
           </div>
-        </div>
+        </div> */}
 
         {/* Newsletter section */}
-        <div className="mx-auto mt-32 max-w-7xl sm:mt-56 sm:px-6 lg:px-8">
+        {/* <div className="mx-auto mt-32 max-w-7xl sm:mt-56 sm:px-6 lg:px-8">
           <div className="relative isolate overflow-hidden bg-gray-900 px-6 py-24 shadow-2xl sm:rounded-3xl sm:px-24 xl:py-32">
             <h2 className="mx-auto max-w-2xl text-center text-3xl font-bold tracking-tight text-white sm:text-4xl">
               Get notified when we’re launching.
@@ -640,10 +641,10 @@ export default function Example() {
               </defs>
             </svg>
           </div>
-        </div>
+        </div> */}
 
         {/* Testimonials section */}
-        <div className="relative isolate mt-32 sm:mt-56 sm:pt-32">
+        {/* <div className="relative isolate mt-32 sm:mt-56 sm:pt-32">
           <svg
             className="absolute inset-0 -z-10 hidden h-full w-full stroke-gray-200 [mask-image:radial-gradient(64rem_64rem_at_top,white,transparent)] sm:block"
             aria-hidden="true"
@@ -778,11 +779,11 @@ export default function Example() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </main>
 
       {/* Footer */}
-      <footer
+      {/* <footer
         className="mt-32 bg-gray-900 sm:mt-56"
         aria-labelledby="footer-heading"
       >
@@ -922,7 +923,7 @@ export default function Example() {
             </p>
           </div>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 }
