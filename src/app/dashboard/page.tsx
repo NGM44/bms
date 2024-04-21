@@ -116,6 +116,7 @@ export default function Example() {
     const formattedDateTime = `${month} ${day} ${year}, ${hours}:${minutes} ${ampm}`;
     return formattedDateTime;
   }
+
   return (
     <>
       {refresh && (
@@ -133,7 +134,6 @@ export default function Example() {
           <header className="absolute inset-x-0 top-0 z-50 flex h-16 border-b border-gray-900/10">
             <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
               <div className="flex flex-1 items-center gap-x-6">
-               
                 <Link
                   href="/"
                   className="text-primary-800 font-bold text-lg -tracking-tight"
@@ -221,7 +221,7 @@ export default function Example() {
                   <div>
                     <BreadCrums />
                   </div>
-                  <div className="sm:block hidden flex flex-row items-center gap-4">
+                  <div className="hidden sm:flex flex-row items-center gap-4">
                     <p className="text-xs text-gray-400 pt-3 items-baseline">
                       Last updated: {lastUpdated}
                     </p>
@@ -281,10 +281,10 @@ export default function Example() {
                 <header className="pb-4 pt-6 sm:pb-6">
                   <div className="mx-auto w-full flex max-w-7xl md:flex-row flex-col items-center gap-6 px-0 sm:flex-nowrap sm:px-6 lg:px-8">
                     {/* <div className="flex-1"> */}
-                      <AreaChart />
+                    <AreaChart />
                     {/* </div> */}
                     {/* <div className="flex-1"> */}
-                      <BarChart />
+                    <BarChart />
                     {/* </div> */}
                   </div>
                 </header>
