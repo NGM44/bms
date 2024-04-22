@@ -391,7 +391,7 @@ export default function Example() {
                 PM2.5, PM4, PM10, VOCs, NOx, humidity, temperature, light,
                 noise, pressure, and structural factors – to give you a
                 hyper-accurate picture of your environment and suggestion to
-                improve with our Airscale AI.
+                improve with our Vayuguna AI.
               </p>
               <div className="mt-10 flex items-center gap-x-6">
                 <a
