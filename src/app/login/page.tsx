@@ -147,7 +147,7 @@ export default function Example() {
 
             <div>
               <div className="text-sm leading-6 mt-2">
-                Don't have an account?
+                Don&apos;t have an account?
                 <Link
                   href="/signup"
                   className="font-semibold text-indigo-600 hover:text-indigo-500 ml-2"
