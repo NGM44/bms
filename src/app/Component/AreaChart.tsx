@@ -80,7 +80,7 @@ const AreaChart = () => {
     ],
     series: [
       {
-        name: "Fake Data",
+        name: "Temperature",
         type: "line",
         smooth: true,
         symbol: "circle",
@@ -105,7 +105,7 @@ const AreaChart = () => {
         data: data,
       },
       {
-        name: "Fake Data",
+        name: "Temperature",
         type: "line",
         smooth: true,
         stack: "a",
@@ -132,8 +132,8 @@ const AreaChart = () => {
     ],
   };
   return (
-    <div className="bg-white border border-gray-200 shadow-md rounded-md px-4 py-2 flex-1 w-full">
-      <div>
+    <div className="bg-red-900 border border-gray-300 shadow-md rounded-md px-4 py-2 flex-1 w-full">
+      <div className="bg-black">
         <p className="font-medium">Temparature Reading</p>
         <p className="text-xs text-gray-500">
           Reading the temparature of the room in degree celsius

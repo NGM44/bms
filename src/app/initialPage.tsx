@@ -529,8 +529,7 @@ export default function Example() {
                 <MyComponent />
               </dl>
 
-              {/* <div id="main" className="w-96 h-96"></div> */}
-              {/* <div className="flex flex-col gap-8 h-full bg-black items-center justify-between">*/}
+           
               <div className="flex-1 bg-white shadow border border-slate-100 rounded-md py-4 mt-8">
                 <p className="pb-4 -p-2 text-center font-medium text-black">
                   Particulate Matter

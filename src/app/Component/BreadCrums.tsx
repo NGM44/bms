@@ -1,22 +1,22 @@
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/20/solid'
 
-const pages = [
-  { name: 'Gravity Office', href: '#', current: true },
-]
+// const pages = [
+//   { name: 'Gravity Office', href: '#', current: true },
+// ]
 
 export default function BreadCrums() {
   return (
     <nav className="flex" aria-label="Breadcrumb">
       <ol role="list" className="flex items-center space-x-4">
-        <li>
+        {/* <li>
           <div>
             <a href="#" className="text-gray-400 hover:text-gray-500">
               <HomeIcon className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
               <span className="sr-only">Home</span>
             </a>
           </div>
-        </li>
-        {pages.map((page) => (
+        </li> */}
+        {/* {pages.map((page) => (
           <li key={page.name}>
             <div className="flex items-center">
               <ChevronRightIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
@@ -29,7 +29,7 @@ export default function BreadCrums() {
               </a>
             </div>
           </li>
-        ))}
+        ))} */}
       </ol>
     </nav>
   )

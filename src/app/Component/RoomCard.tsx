@@ -4,6 +4,7 @@ import {
   TvIcon,
 } from "@heroicons/react/24/outline";
 import React from "react";
+import { TemparatureChart } from "./TempratureMeter";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -18,7 +19,6 @@ const RoomCard = ({stat}:{stat: any}) => {
       className="relative overflow-hidden rounded-sm bg-white px-4 pt-5 shadow sm:px-6 sm:pt-6 border border-slate-100"
     >
       <dt>
-        
         <p className="truncate text-sm font-medium text-gray-500">
           {stat.name}
         </p>
