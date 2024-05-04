@@ -13,18 +13,18 @@ import { HumidityChartUI } from "./Component/HumidityComp";
 import TemperatureAreaChart from "./Component/TemperatureAreaChart";
 import HumidityAreaChart from "./Component/HumidityAreaChart";
 
-export async function getServerSideProps() {
-  const querySnapshot = await getDocs(
-    collection(db, "/Brillio/HubRoom_Historical")
-  );
-  const data = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-  console.log("data", data);
-  return {
-    props: {
-      dataValue: data,
-    },
-  };
-}
+// export async function getServerSideProps() {
+//   const querySnapshot = await getDocs(
+//     collection(db, "/Brillio/HubRoom_Historical")
+//   );
+//   const data = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+//   console.log("data", data);
+//   return {
+//     props: {
+//       dataValue: data,
+//     },
+//   };
+// }
 
 const navigation = [{ name: "", href: "#" }];
 const secondaryNavigation = [
