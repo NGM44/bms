@@ -7,7 +7,7 @@ import {
 import { CustomChart } from "echarts/charts";
 import { SVGRenderer } from "echarts/renderers";
 
-export const HumidityChart = () => {
+export const HumidityChart = (value:any) => {
   echarts.use([
     DatasetComponent,
     PolarComponent,
@@ -226,7 +226,7 @@ export const HumidityChart = () => {
         },
         data: [
           {
-            value: 20,
+            value: value ?? 0
           },
         ],
       },
@@ -264,7 +264,7 @@ export const HumidityChart = () => {
         },
         data: [
           {
-            value: 20,
+            value: value,
           },
         ],
       },

@@ -12,7 +12,7 @@ import { TemparatureChartUI } from "../Component/TemparatureComp";
 import { HumidityChartUI } from "../Component/HumidityComp";
 import TemperatureAreaChart from "../Component/TemperatureAreaChart";
 import HumidityAreaChart from "../Component/HumidityAreaChart";
-import { useRouter } from 'next/navigation'; 
+import { useRouter } from "next/navigation";
 
 // export async function getServerSideProps() {
 //   const querySnapshot = await getDocs(
@@ -27,6 +27,53 @@ import { useRouter } from 'next/navigation';
 //   };
 // }
 
+function sortDates(datesArray: any) {
+  console.log(datesArray);
+  if (datesArray && datesArray.length > 1) {
+    datesArray.sort((dataPointA: any, dataPointB: any) => {
+      // Extract timestamps
+      const timestampA = dataPointA.myTimestamp;
+      const timestampB = dataPointB.myTimestamp;
+      // datesArray.sort((dateA:any, dateB:any) => {
+      // Split the date and time components
+      const [datePartA, timePartA] = timestampA.split(", ");
+      const [datePartB, timePartB] = timestampB.split(", ");
+
+      // Split the date components into day, month, and year
+      const [dayA, monthA, yearA] = datePartA.split("-");
+      const [dayB, monthB, yearB] = datePartB.split("-");
+
+      // Split the time components into hours and minutes
+      const [hoursA, minutesA] = timePartA.split(":");
+      const [hoursB, minutesB] = timePartB.split(":");
+
+      // Create Date objects for comparison
+      const dateObjectA: any = new Date(
+        yearA,
+        monthA - 1,
+        dayA,
+        hoursA,
+        minutesA
+      );
+      const dateObjectB: any = new Date(
+        yearB,
+        monthB - 1,
+        dayB,
+        hoursB,
+        minutesB
+      );
+
+      // Compare the Date objects and return the appropriate sorting order
+      return dateObjectA - dateObjectB;
+    });
+
+    return datesArray;
+  }
+  else{
+    return [];
+  }
+}
+
 const navigation = [{ name: "", href: "#" }];
 const secondaryNavigation = [
   { name: "Last 7 days", href: "#", current: true },
@@ -35,7 +82,6 @@ const secondaryNavigation = [
 ];
 
 export default function Example({ dataValue }: { dataValue: any }) {
-
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [data, setData] = useState<VayuGunaModel[]>([
     {
@@ -68,20 +114,22 @@ export default function Example({ dataValue }: { dataValue: any }) {
     }
     return [];
   }, [data]);
-
+  const [graphData, setGraphData] = useState<any>([]);
+  console.log("Date",graphData[graphData.length-1])
   const fetchData = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, "/Brillio"));
+      const querySnapshot = await getDocs( collection(db, "/Brillio"));
 
       const fetchedData = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
+      const sortedValues = sortDates(fetchedData);
+      setGraphData(sortedValues);
+
+  
       setLastUpdated(formatDateTime());
-    
-    } catch (e) {
-     
-    }
+    } catch (e) {}
   };
   useEffect(() => {
     setInterval(fetchData, 5000);
@@ -127,7 +175,6 @@ export default function Example({ dataValue }: { dataValue: any }) {
 
   useEffect(() => {
     const user = sessionStorage.getItem("user");
-    console.log(user);
     if (!user) {
       router.push("/login");
     }
@@ -238,44 +285,16 @@ export default function Example({ dataValue }: { dataValue: any }) {
 
           <main>
             <div className="flex pt-16 flex-row justify-between lg:px-6 xl:px-8 gap-8 max-w-7xl mt-8 mx-auto">
-              <TemparatureChartUI />
-              <HumidityChartUI />
+              {graphData[graphData.length-1] && <TemparatureChartUI value={graphData[graphData.length-1].Temperature}/>}
+             {graphData[graphData.length-1] && <HumidityChartUI value={graphData[graphData.length-1].Humidity}/>}
             </div>
 
             {historic && (
-              <div>
-                {/* <div className="w-full">
-                  <header className="pb-4 pt-6 mt-20 sm:pb-6 bg-[#f3f3f7] border-t border-b border-gray-300 ">
-                    <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-6 px-4 sm:flex-nowrap sm:px-6 lg:px-8 justify-between">
-                      <h1 className="text-base font-semibold leading-7 text-gray-500">
-                        Historical Information
-                      </h1>
-                      <div className="order-last flex w-full gap-x-8 text-sm cursor-pointer font-semibold leading-6 sm:order-none sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6 sm:leading-7">
-                        {secondaryNavigation.map((item) => (
-                          <div
-                            key={item.name}
-                            onClick={() => {
-                              setPeriod(item.name);
-                            }}
-                            className={
-                              item.name === period
-                                ? "text-primary-800"
-                                : "text-gray-700"
-                            }
-                          >
-                            {item.name}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </header>
-                </div> */}
-                <header className="pb-4 pt-6 sm:pb-6">
-                  <div className="h-[450px] mx-auto w-full flex max-w-7xl md:flex-row flex-col items-center gap-6 px-0 sm:flex-nowrap sm:px-6 lg:px-8">
-                    <TemperatureAreaChart />
-                  </div>
-                </header>
-              </div>
+              <header className="pb-4 pt-6 sm:pb-6">
+                <div className="h-[450px] mx-auto w-full flex max-w-7xl md:flex-row flex-col items-center gap-6 px-0 sm:flex-nowrap sm:px-6 lg:px-8">
+                  <TemperatureAreaChart sortedValues={graphData ?? []} />
+                </div>
+              </header>
             )}
           </main>
 

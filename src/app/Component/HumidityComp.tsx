@@ -3,10 +3,13 @@ import { progressChart } from "./AQIMeter";
 import { SparklesIcon } from "@heroicons/react/20/solid";
 import { TemparatureChart } from "./TempratureMeter";
 import { HumidityChart } from "./HumidityMeter";
+interface HumidityChartUIProps {
+  value: number; // Or whatever type 'value' represents
+}
 
-export class HumidityChartUI extends Component {
+export class HumidityChartUI extends Component<HumidityChartUIProps> {
   componentDidMount() {
-    HumidityChart();
+    HumidityChart(this.props.value);
   }
 
   render() {

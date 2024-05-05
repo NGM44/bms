@@ -3,9 +3,15 @@ import { progressChart } from "./AQIMeter";
 import { SparklesIcon } from "@heroicons/react/20/solid";
 import { TemparatureChart } from "./TempratureMeter";
 
-export class TemparatureChartUI extends Component {
+interface TemperatureChartUIProps {
+  value: number; // Or whatever type 'value' represents
+}
+
+
+export class TemparatureChartUI extends Component<TemperatureChartUIProps> {
+ 
   componentDidMount() {
-    TemparatureChart();
+    TemparatureChart(this.props.value ?? 0);
   }
 
   render() {
@@ -15,10 +21,6 @@ export class TemparatureChartUI extends Component {
         <p className="font-bold text-gray-500 text-lg mx-auto mb-2 -mt-12">
           Temperature Meter
         </p>
-        {/* <p className="text-gray-800 text-xs mx-auto pb-4">
-          20-24°C (68-75°F) for comfort, but adjustable based on preference and
-          activities.
-        </p>{" "} */}
       </div>
     );
   }
