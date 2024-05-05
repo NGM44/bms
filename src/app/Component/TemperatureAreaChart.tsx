@@ -246,7 +246,7 @@ const TemperatureAreaChart = ({ sortedValues }: { sortedValues: any }) => {
         <div className="px-4">
           <p className="font-medium">Data Monitoring</p>
           <p className="text-xs text-gray-500">
-            Reading's of Temperature & Humidity
+            Reading&apos;s of Temperature & Humidity
           </p>
         </div>
         <div className="flex items-center justify-between bg-white px-4 py-3 sm:px-6">
