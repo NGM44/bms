@@ -9,10 +9,9 @@ import { db } from "../firebaseConfig";
 import { TemparatureChartUI } from "../Component/TemparatureComp";
 import { HumidityChartUI } from "../Component/HumidityComp";
 import TemperatureAreaChart from "../Component/TemperatureAreaChart";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
 function sortDates(datesArray: any) {
-  console.log(datesArray);
   if (datesArray && datesArray.length > 1) {
     datesArray.sort((dataPointA: any, dataPointB: any) => {
       // Extract timestamps
@@ -243,6 +242,7 @@ export default function Example() {
                 value={graphData[graphData.length - 1].Temperature}
               />
             )}
+            {/* <Dummy /> */}
             {graphData[graphData.length - 1] && (
               <HumidityChartUI
                 value={graphData[graphData.length - 1].Humidity}

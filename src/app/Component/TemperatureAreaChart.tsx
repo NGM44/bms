@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import * as echarts from "echarts/core";
 import ReactECharts from "echarts-for-react";
+// import ReactECharts from "echarts-for-react";
 
 const TemperatureAreaChart = ({ sortedValues }: { sortedValues: any }) => {
   let data = [];
   let data2 = [];
-  console.log("sortedValues", sortedValues);
   for (let i = 0; i < sortedValues.length; i++) {
     data.push([sortedValues[i].myTimestamp, sortedValues[i].Humidity]);
     data2.push([sortedValues[i].myTimestamp, sortedValues[i].Temperature]);
@@ -22,8 +22,7 @@ const TemperatureAreaChart = ({ sortedValues }: { sortedValues: any }) => {
   //   valueBase2 <= 0 && (valueBase2 = Math.random() * 50);
   //   data2.push([dayStr, valueBase2]);
   // }
-  console.log("resultList1", data);
-  console.log("resultList2", data2);
+
   // const option = {
   //   legend: {
   //     top: "bottom",
