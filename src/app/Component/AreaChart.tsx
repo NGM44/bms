@@ -134,9 +134,9 @@ const AreaChart = () => {
   return (
     <div className="bg-red-900 border border-gray-300 shadow-md rounded-md px-4 py-2 flex-1 w-full">
       <div className="bg-black">
-        <p className="font-medium">Temparature Reading</p>
+        <p className="font-medium">Temperature Reading</p>
         <p className="text-xs text-gray-500">
-          Reading the temparature of the room in degree celsius
+          Reading the Temperature of the room in degree celsius
         </p>
       </div>
       <ReactECharts option={option} />

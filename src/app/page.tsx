@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
 import { auth } from "./firebaseConfig";
-import Link from "next/link";
+import Image from "next/image";
 import { toast } from "react-toastify";
 
 export default function Example() {
@@ -44,18 +44,19 @@ export default function Example() {
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8 mx-4">
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
-          <div className="bg-white px-6 py-12 shadow-lg sm:rounded-lg sm:px-12 border border-gray-200">
+          <div className="bg-white px-6 py-6 pb-12 shadow-lg sm:rounded-lg sm:px-12 border border-gray-200">
             <div className="sm:mx-auto sm:w-full sm:max-w-md pb-8">
-              <Link
-                href="/"
-                className="text-primary-800 font-bold text-lg -tracking-tight"
-              >
-                <span className="rounded-full bg-primary-800/10 px-3 py-1 text-sm font-semibold leading-6 text-primary-800 ring-1 ring-inset ring-primary-800/10">
-                  Vayuguna
-                </span>
-              </Link>
-              <h2 className="mt-6 text-left text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                Sign in to your account
+              <div className="items-center flex flex-row mx-auto">
+                <Image
+                  src="/logo.png"
+                  alt="My Image"
+                  className="h-32 w-auto mx-auto"
+                  width={500} // Adjust width as needed
+                  height={500} // Adjust height as needed
+                />
+              </div>
+              <h2 className="text-left text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                Sign in
               </h2>
             </div>
             <form className="space-y-6" action="#" method="POST">

@@ -206,7 +206,7 @@ const TemperatureAreaChart = ({ sortedValues }: { sortedValues: any }) => {
         data: data.map((ele) => ele[1]),
       },
       {
-        name: "Temparature",
+        name: "Temperature",
         type: "line",
         stack: "Total",
         smooth: true,
@@ -241,15 +241,15 @@ const TemperatureAreaChart = ({ sortedValues }: { sortedValues: any }) => {
 
   const [period, setPeriod] = useState("7 Days");
   return (
-    <div className="bg-white border border-gray-300 h-96  rounded-md px-4 py-2 flex-1 w-full">
+    <div className="bg-white border border-gray-300 h-96 rounded-2xl px-4 py-2 flex-1 w-full">
       <div className="justify-between flex flex-row items-center">
-        <div>
-          <p className="font-medium">Temparature Reading</p>
+        <div className="px-4">
+          <p className="font-medium">Data Monitoring</p>
           <p className="text-xs text-gray-500">
-            Reading the temparature of the room in degree celsius
+            Reading's of Temperature & Humidity
           </p>
         </div>
-        <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+        <div className="flex items-center justify-between bg-white px-4 py-3 sm:px-6">
           <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
             <div>
               <nav

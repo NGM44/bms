@@ -219,7 +219,7 @@ export default function Example({ dataValue }: { dataValue: any }) {
                   <a href="#" className="">
                     <MapPinIcon className="h-4 w-4 text-primary-800" />
                   </a>
-                  <p className="text-gray-700 text-sm font-semibold">Chennai</p>
+                  <p className="text-gray-700 text-sm font-semibold">Brillio, Chennai</p>
                 </div>
                 <div className="flex flex-1 flex-row items-center justify-end">
                   <ArrowPathIcon
@@ -284,7 +284,7 @@ export default function Example({ dataValue }: { dataValue: any }) {
           </header>
 
           <main>
-            <div className="flex pt-16 flex-row justify-between lg:px-6 xl:px-8 gap-8 max-w-7xl mt-8 mx-auto">
+            <div className="flex pt-16 sm:flex-row flex-col justify-between lg:px-6 xl:px-8 gap-8 max-w-7xl mt-8 mx-auto">
               {graphData[graphData.length-1] && <TemparatureChartUI value={graphData[graphData.length-1].Temperature}/>}
              {graphData[graphData.length-1] && <HumidityChartUI value={graphData[graphData.length-1].Humidity}/>}
             </div>
@@ -299,14 +299,14 @@ export default function Example({ dataValue }: { dataValue: any }) {
           </main>
 
           <footer className="flex flex-row justify-between lg:px-6 xl:px-8 gap-8 max-w-7xl mx-auto">
-            <div className="bg-white border border-gray-300  rounded-md px-4 py-2 flex-1 w-full">
+            <div className="bg-white border border-gray-300  rounded-2xl px-4 py-2 flex-1 w-full">
               <div className="justify-between flex flex-col items-start">
-                <p className="font-medium px-4 sm:px-6">Map Location</p>
-                <div className="flex items-center justify-between bg-white px-4 py-3 sm:px-6">
+                <p className="font-medium px-4 sm:px-4">Location</p>
+                <div className="flex items-center justify-between bg-white px-4 py-3 sm:px-5">
                   <img
                     src="./map.png"
                     alt=""
-                    className="h-full w-full object-right md:object-center"
+                    className="h-full w-full rounded-2xl object-right md:object-center"
                   />
                 </div>
               </div>

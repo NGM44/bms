@@ -147,7 +147,7 @@ export default function Example() {
     if (data) {
       return [
         {
-          name: "Temparature",
+          name: "Temperature",
           value: `${data[0].Temperature.toFixed(2)}°C`,
           change: "+4.75%",
           changeType: "positive",
