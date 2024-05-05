@@ -17,7 +17,7 @@ export default function Example() {
     try {
       const res = await signInWithEmailAndPassword(email, password);
       if (res) {
-        console.log({ res });
+      
         sessionStorage.setItem("user", "true");
         setEmail("");
         setPassword("");
@@ -31,7 +31,7 @@ export default function Example() {
           progress: undefined,
           theme: "light",
         });
-        router.push("/dashboard");
+        router.push("/");
       } else {
         toast("Login Failed, try again");
       }
@@ -127,7 +127,7 @@ export default function Example() {
                 <div className="text-sm leading-6">
                   <a
                     href="#"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500"
+                    className="font-semibold text-primary-800 hover:text-primary-500"
                   >
                     Forgot password?
                   </a>
@@ -138,14 +138,14 @@ export default function Example() {
                 <button
                   type="submit"
                   onClick={handleSignIn}
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex w-full justify-center rounded-md bg-primary-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Sign in
                 </button>
               </div>
             </form>
 
-            <div>
+            {/* <div>
               <div className="text-sm leading-6 mt-2">
                 Don&apos;t have an account?
                 <Link
@@ -155,7 +155,7 @@ export default function Example() {
                   Create one
                 </Link>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

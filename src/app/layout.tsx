@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   description: "Monitor the Air Quality for better tomorrow",
 };
 
+
 export default function RootLayout({
   children,
 }: {

@@ -289,7 +289,7 @@ export default function Example() {
         get(usersRef)
           .then((snapshot) => {
             if (snapshot.exists()) {
-              console.log("snapshot", snapshot);
+             
               const usersArray = Object.entries(snapshot.val()).map(
                 ([id, data]: any) => ({
                   id,
@@ -297,11 +297,11 @@ export default function Example() {
                 })
               );
               setData(usersArray);
-              console.log("snapshot", usersArray);
+              
             }
           })
           .catch((errors) => {
-            console.log("errors", errors);
+          
           });
         setRefresh(false);
         setLastUpdated(formatDateTime()); 

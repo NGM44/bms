@@ -11,7 +11,7 @@ function classNames(...classes: any) {
 }
 
 const RoomCard = ({stat}:{stat: any}) => {
-  console.log("stat", stat);
+
 
   return (
     <div

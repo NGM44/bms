@@ -10,7 +10,7 @@ import {
   }
   
   const RoomCard2 = ({stat}:{stat: any}) => {
-    console.log("stat", stat);
+
   
     return (
       <div

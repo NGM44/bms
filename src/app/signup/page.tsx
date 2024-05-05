@@ -32,7 +32,7 @@ const SignUp = () => {
           progress: undefined,
           theme: "light",
         });
-        router.push("/dashboard");
+        router.push("");
       } else {
         toast("Logged in Successfully", {
           position: "bottom-right",
@@ -160,7 +160,7 @@ const SignUp = () => {
                   Show Password
                 </label>
               </div>
-              <div className="flex items-center justify-between">
+              {/* <div className="flex items-center justify-between">
                 <div className="text-sm leading-6">
                   Already have an account?
                   <Link
@@ -170,7 +170,7 @@ const SignUp = () => {
                     Sign in here
                   </Link>
                 </div>
-              </div>
+              </div> */}
 
               <div>
                 <button
@@ -179,7 +179,7 @@ const SignUp = () => {
                   onClick={handleSignUp}
                   className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
                     confirmPassword === password && confirmPassword !== ""
-                      ? "bg-indigo-600 hover:bg-indigo-500"
+                      ? "bg-primary hover:bg-primary/500"
                       : "bg-gray-600 hover:cursor-not-allowed"
                   }`}
                 >

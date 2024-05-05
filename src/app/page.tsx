@@ -12,6 +12,7 @@ import { TemparatureChartUI } from "./Component/TemparatureComp";
 import { HumidityChartUI } from "./Component/HumidityComp";
 import TemperatureAreaChart from "./Component/TemperatureAreaChart";
 import HumidityAreaChart from "./Component/HumidityAreaChart";
+import { useRouter } from 'next/navigation'; 
 
 // export async function getServerSideProps() {
 //   const querySnapshot = await getDocs(
@@ -34,7 +35,7 @@ const secondaryNavigation = [
 ];
 
 export default function Example({ dataValue }: { dataValue: any }) {
-  console.log("dataValue", dataValue);
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [data, setData] = useState<VayuGunaModel[]>([
     {
@@ -77,9 +78,9 @@ export default function Example({ dataValue }: { dataValue: any }) {
         ...doc.data(),
       }));
       setLastUpdated(formatDateTime());
-      console.log("fetchedData", fetchedData);
+    
     } catch (e) {
-      console.log("fetchedData1", e);
+     
     }
   };
   useEffect(() => {
@@ -118,10 +119,19 @@ export default function Example({ dataValue }: { dataValue: any }) {
     const formattedDateTime = `${month} ${day} ${year}, ${hours}:${minutes} ${ampm}`;
     return formattedDateTime;
   }
+  const router = useRouter();
 
   useEffect(() => {
     fetchData();
   }, [refresh]);
+
+  useEffect(() => {
+    const user = sessionStorage.getItem("user");
+    console.log(user);
+    if (!user) {
+      router.push("/login");
+    }
+  }, []);
 
   return (
     <>
@@ -262,14 +272,27 @@ export default function Example({ dataValue }: { dataValue: any }) {
                 </div> */}
                 <header className="pb-4 pt-6 sm:pb-6">
                   <div className="h-[450px] mx-auto w-full flex max-w-7xl md:flex-row flex-col items-center gap-6 px-0 sm:flex-nowrap sm:px-6 lg:px-8">
-        
                     <TemperatureAreaChart />
-                   
                   </div>
                 </header>
               </div>
             )}
           </main>
+
+          <footer className="flex flex-row justify-between lg:px-6 xl:px-8 gap-8 max-w-7xl mx-auto">
+            <div className="bg-white border border-gray-300  rounded-md px-4 py-2 flex-1 w-full">
+              <div className="justify-between flex flex-col items-start">
+                <p className="font-medium px-4 sm:px-6">Map Location</p>
+                <div className="flex items-center justify-between bg-white px-4 py-3 sm:px-6">
+                  <img
+                    src="./map.png"
+                    alt=""
+                    className="h-full w-full object-right md:object-center"
+                  />
+                </div>
+              </div>
+            </div>
+          </footer>
         </div>
       )}
     </>
