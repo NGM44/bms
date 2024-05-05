@@ -1,19 +1,31 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { get, ref } from "firebase/database";
-import { database } from "../firebaseConfig";
 import { Dialog } from "@headlessui/react";
 import { ArrowPathIcon } from "@heroicons/react/20/solid";
-import { BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { AirScaleModel, VayuGunaModel } from "../model";
-import BarChart from "../Component/chart";
-import AreaChart from "../Component/AreaChart";
-import DropDown from "../Component/dropdown";
+import { BellIcon, MapPinIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { VayuGunaModel } from "../model";
 import Image from "next/image";
-import RoomCard from "../Component/RoomCard";
-import BreadCrums from "../Component/BreadCrums";
-import { MyComponent } from "../Component/comp";
 import Link from "next/link";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebaseConfig";
+import { TemparatureChartUI } from "../Component/TemparatureComp";
+import { HumidityChartUI } from "../Component/HumidityComp";
+import TemperatureAreaChart from "../Component/TemperatureAreaChart";
+import HumidityAreaChart from "../Component/HumidityAreaChart";
+import { useRouter } from 'next/navigation'; 
+
+// export async function getServerSideProps() {
+//   const querySnapshot = await getDocs(
+//     collection(db, "/Brillio/HubRoom_Historical")
+//   );
+//   const data = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+//   console.log("data", data);
+//   return {
+//     props: {
+//       dataValue: data,
+//     },
+//   };
+// }
 
 const navigation = [{ name: "", href: "#" }];
 const secondaryNavigation = [
@@ -22,7 +34,8 @@ const secondaryNavigation = [
   { name: "Last 90 Days", href: "#", current: false },
 ];
 
-export default function Example() {
+export default function Example({ dataValue }: { dataValue: any }) {
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [data, setData] = useState<VayuGunaModel[]>([
     {
@@ -30,7 +43,7 @@ export default function Example() {
       Humidity: 0,
     },
   ]);
-  const [refresh, setRefresh] = useState(true);
+  const [refresh, setRefresh] = useState(false);
   const [lastUpdated, setLastUpdated] = useState("");
   const [period, setPeriod] = useState("Last 7 days");
   const stats1 = useMemo(() => {
@@ -41,14 +54,14 @@ export default function Example() {
           value: `${data[0].Temperature.toFixed(2)}°C`,
           change: "+4.75%",
           changeType: "positive",
-          desp: "20-24°C (68-75°F) for comfort, but adjustable based on preference and activities.",
+          desp: "",
         },
         {
           name: "Humidity",
           value: `${data[0].Humidity.toFixed(2)} % r.H`,
           change: "+10.18%",
           changeType: "negative",
-          desp: "30-60% RH for comfort and to prevent mold growth",
+          desp: "",
         },
       ];
     } else {
@@ -56,33 +69,23 @@ export default function Example() {
     return [];
   }, [data]);
 
-  useEffect(() => {
-    if (refresh) {
-      setTimeout(function () {
-        const usersRef = ref(database);
+  const fetchData = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "/Brillio"));
 
-        // get(usersRef)
-        //   .then((snapshot) => {
-        //     if (snapshot.exists()) {
-        //       console.log("snapshot", snapshot);
-        //       const usersArray = Object.entries(snapshot.val()).map(
-        //         ([id, data]: any) => ({
-        //           id,
-        //           ...data,
-        //         })
-        //       );
-        //       setData(usersArray);
-        //       console.log("snapshot", usersArray);
-        //     }
-        //   })
-        //   .catch((errors) => {
-        //     console.log("errors", errors);
-        //   });
-        setRefresh(false);
-        setLastUpdated(formatDateTime());
-      }, 500);
+      const fetchedData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setLastUpdated(formatDateTime());
+    
+    } catch (e) {
+     
     }
-  }, [refresh]);
+  };
+  useEffect(() => {
+    setInterval(fetchData, 5000);
+  }, []);
 
   const [historic, setHistoric] = useState(true);
   function formatDateTime() {
@@ -116,6 +119,19 @@ export default function Example() {
     const formattedDateTime = `${month} ${day} ${year}, ${hours}:${minutes} ${ampm}`;
     return formattedDateTime;
   }
+  const router = useRouter();
+
+  useEffect(() => {
+    fetchData();
+  }, [refresh]);
+
+  useEffect(() => {
+    const user = sessionStorage.getItem("user");
+    console.log(user);
+    if (!user) {
+      router.push("/login");
+    }
+  }, []);
 
   return (
     <>
@@ -131,15 +147,18 @@ export default function Example() {
       )}
       {data && (
         <div>
-          <header className="absolute inset-x-0 top-0 z-50 flex h-16 border-b border-gray-900/10">
+          <header className="absolute inset-x-0 top-0 z-50 flex h-16 border-b border-gray-900/10 shadow-md">
             <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
               <div className="flex flex-1 items-center gap-x-6">
-                <Link
-                  href="/"
-                  className="text-primary-800 font-bold text-lg -tracking-tight"
-                >
-                  Vayuguna
-                </Link>
+                <a href="#" className="-m-1.5 p-1.5">
+                  <Image
+                    src="/brillo.png"
+                    alt="My Image"
+                    className="h-6 w-auto bg-white"
+                    width={500}
+                    height={500}
+                  />
+                </a>
               </div>
               <nav className="hidden md:flex md:gap-x-11 md:text-sm md:font-semibold md:leading-6 md:text-gray-700">
                 {navigation.map((item, itemIdx) => (
@@ -148,27 +167,30 @@ export default function Example() {
                   </a>
                 ))}
               </nav>
-              <div className="flex flex-1 items-center justify-end gap-x-8">
-                <button
-                  onClick={() => {
-                    setHistoric(!historic);
-                  }}
-                  type="button"
-                  className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
-                >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-                <a href="#" className="-m-1.5 p-1.5">
-                  <span className="sr-only">Your profile</span>
-                  <Image
-                    src="/CompanyLogo.png"
-                    alt="My Image"
-                    className="h-8 w-auto rounded-full bg-white"
-                    width={500} // Adjust width as needed
-                    height={500} // Adjust height as needed
+              <div>
+                <div className="flex flex-1 flex-row items-center justify-end gap-2">
+                  <a href="#" className="">
+                    <MapPinIcon className="h-4 w-4 text-primary-800" />
+                  </a>
+                  <p className="text-gray-700 text-sm font-semibold">Chennai</p>
+                </div>
+                <div className="flex flex-1 flex-row items-center justify-end">
+                  <ArrowPathIcon
+                    className={`h-4 w-4 mr-1 text-primary-800 ${
+                      refresh ? "animate-spin" : ""
+                    }`}
+                    onClick={() => {
+                      setRefresh(true);
+                      setTimeout(() => {
+                        setRefresh(false);
+                      }, 2000);
+                    }}
                   />
-                </a>
+
+                  <p className="text-xs text-gray-800 items-baseline">
+                    Last updated: {lastUpdated}
+                  </p>
+                </div>
               </div>
             </div>
             <Dialog
@@ -215,47 +237,17 @@ export default function Example() {
           </header>
 
           <main>
-            <div className="pt-16">
-              <header className="pb-4 pt-6 sm:pb-6">
-                <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-6 px-4 sm:flex-nowrap sm:px-6 lg:px-8 justify-between">
-                  <div>
-                    <BreadCrums />
-                  </div>
-                  <div className="hidden sm:flex flex-row items-center gap-4">
-                    <p className="text-xs text-gray-400 pt-3 items-baseline">
-                      Last updated: {lastUpdated}
-                    </p>
-                    <div
-                      onClick={() => {
-                        setRefresh(true);
-                      }}
-                      className="ml-auto flex cursor-pointer items-center gap-x-1 rounded-md bg-primary-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-                    >
-                      <ArrowPathIcon
-                        className={`-ml-1.5 h-5 w-5 ${
-                          refresh ? "animate-spin" : ""
-                        }`}
-                        aria-hidden="true"
-                      />
-                      Refresh
-                    </div>
-                    <DropDown />
-                  </div>
-                </div>
-              </header>
-
-              <dl className="mx-auto grid max-w-7xl mt-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-6 xl:px-8 gap-8 ">
-                {stats1.map((stat, statIdx) => (
-                  <RoomCard key={stat.name} stat={stat} />
-                ))}
-              </dl>
+            <div className="flex pt-16 flex-row justify-between lg:px-6 xl:px-8 gap-8 max-w-7xl mt-8 mx-auto">
+              <TemparatureChartUI />
+              <HumidityChartUI />
             </div>
+
             {historic && (
               <div>
-                <div className="w-full">
-                  <header className="pb-4 pt-6 mt-20 sm:pb-6 bg-[#f3f3f7]">
+                {/* <div className="w-full">
+                  <header className="pb-4 pt-6 mt-20 sm:pb-6 bg-[#f3f3f7] border-t border-b border-gray-300 ">
                     <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-6 px-4 sm:flex-nowrap sm:px-6 lg:px-8 justify-between">
-                      <h1 className="text-base font-semibold leading-7 text-gray-900">
+                      <h1 className="text-base font-semibold leading-7 text-gray-500">
                         Historical Information
                       </h1>
                       <div className="order-last flex w-full gap-x-8 text-sm cursor-pointer font-semibold leading-6 sm:order-none sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6 sm:leading-7">
@@ -277,20 +269,30 @@ export default function Example() {
                       </div>
                     </div>
                   </header>
-                </div>
+                </div> */}
                 <header className="pb-4 pt-6 sm:pb-6">
-                  <div className="mx-auto w-full flex max-w-7xl md:flex-row flex-col items-center gap-6 px-0 sm:flex-nowrap sm:px-6 lg:px-8">
-                    {/* <div className="flex-1"> */}
-                    <AreaChart />
-                    {/* </div> */}
-                    {/* <div className="flex-1"> */}
-                    <BarChart />
-                    {/* </div> */}
+                  <div className="h-[450px] mx-auto w-full flex max-w-7xl md:flex-row flex-col items-center gap-6 px-0 sm:flex-nowrap sm:px-6 lg:px-8">
+                    <TemperatureAreaChart />
                   </div>
                 </header>
               </div>
             )}
           </main>
+
+          <footer className="flex flex-row justify-between lg:px-6 xl:px-8 gap-8 max-w-7xl mx-auto">
+            <div className="bg-white border border-gray-300  rounded-md px-4 py-2 flex-1 w-full">
+              <div className="justify-between flex flex-col items-start">
+                <p className="font-medium px-4 sm:px-6">Map Location</p>
+                <div className="flex items-center justify-between bg-white px-4 py-3 sm:px-6">
+                  <img
+                    src="./map.png"
+                    alt=""
+                    className="h-full w-full object-right md:object-center"
+                  />
+                </div>
+              </div>
+            </div>
+          </footer>
         </div>
       )}
     </>

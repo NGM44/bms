@@ -150,7 +150,7 @@ const SignUp = () => {
                   name="remember-me"
                   type="checkbox"
                   checked={showPassword}
-                  onClick={() => setShowPassword(!showPassword)}
+                  onChange={() => setShowPassword(!showPassword)}
                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 border-2 focus:ring-indigo-600"
                 />
                 <label

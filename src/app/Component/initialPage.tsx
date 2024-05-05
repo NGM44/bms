@@ -1,7 +1,7 @@
 "use client";
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { get, ref } from "firebase/database";
-import { database } from "./firebaseConfig";
+import { database } from "../firebaseConfig";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   ArrowDownCircleIcon,
@@ -20,18 +20,18 @@ import {
   TvIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { AirScaleModel } from "./model";
-import BarChart from "./Component/chart";
-import AreaChart from "./Component/AreaChart";
-import GridInfo from "./Component/grid";
-import DropDown from "./Component/dropdown";
+import { AirScaleModel } from "../model";
+import BarChart from "./chart";
+import AreaChart from "./AreaChart";
+import GridInfo from "./grid";
+import DropDown from "./dropdown";
 import Image from "next/image";
-import RoomCard from "./Component/RoomCard";
-import Office from "./Component/office";
-import RoomCard2 from "./Component/RoomCard2";
-import BreadCrums from "./Component/BreadCrums";
-import { progressChart } from "./Component/AQIMeter";
-import { MyComponent } from "./Component/comp";
+import RoomCard from "./RoomCard";
+import Office from "./office";
+import RoomCard2 from "./RoomCard2";
+import BreadCrums from "./BreadCrums";
+import { progressChart } from "./AQIMeter";
+import { MyComponent } from "./comp";
 
 const navigation = [{ name: "", href: "#" }];
 const secondaryNavigation = [
