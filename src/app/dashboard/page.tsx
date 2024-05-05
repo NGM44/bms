@@ -242,6 +242,7 @@ export default function Example() {
                 value={graphData[graphData.length - 1].Temperature}
               />
             )}
+            {/* <Dummy /> */}
             {graphData[graphData.length - 1] && (
               <HumidityChartUI
                 value={graphData[graphData.length - 1].Humidity}

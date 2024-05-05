@@ -296,7 +296,7 @@ const TemperatureAreaChart = ({ sortedValues }: { sortedValues: any }) => {
           </div>
         </div>
       </div>
-      {/* <ReactECharts option={option} /> */}
+      <ReactECharts option={option} />
     </div>
   );
 };
