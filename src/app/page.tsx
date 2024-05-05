@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
@@ -16,8 +16,12 @@ export default function Example() {
   const handleSignIn = async () => {
     try {
       const res = await signInWithEmailAndPassword(email, password);
-      if (res) {
-        sessionStorage.setItem("user", "true");
+      console.log("res",res);
+      if (res?.user) {
+        console.log("res1",res);
+        localStorage.setItem("user", "true");
+        router.push("/dashboard");
+        console.log("res2",res);
         setEmail("");
         setPassword("");
         toast("Logged in Successfully", {
@@ -30,7 +34,6 @@ export default function Example() {
           progress: undefined,
           theme: "light",
         });
-        router.push("/dashboard");
       } else {
         toast("Login Failed, try again");
       }

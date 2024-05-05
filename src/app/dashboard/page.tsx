@@ -1,31 +1,15 @@
-"use client";
+'use client';
 import { useEffect, useMemo, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { ArrowPathIcon } from "@heroicons/react/20/solid";
-import { BellIcon, MapPinIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { VayuGunaModel } from "../model";
+import { MapPinIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import Link from "next/link";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import { TemparatureChartUI } from "../Component/TemparatureComp";
 import { HumidityChartUI } from "../Component/HumidityComp";
 import TemperatureAreaChart from "../Component/TemperatureAreaChart";
-import HumidityAreaChart from "../Component/HumidityAreaChart";
 import { useRouter } from "next/navigation";
-
-// export async function getServerSideProps() {
-//   const querySnapshot = await getDocs(
-//     collection(db, "/Brillio/HubRoom_Historical")
-//   );
-//   const data = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-//   console.log("data", data);
-//   return {
-//     props: {
-//       dataValue: data,
-//     },
-//   };
-// }
 
 function sortDates(datesArray: any) {
   console.log(datesArray);
@@ -68,8 +52,7 @@ function sortDates(datesArray: any) {
     });
 
     return datesArray;
-  }
-  else{
+  } else {
     return [];
   }
 }
@@ -81,44 +64,14 @@ const secondaryNavigation = [
   { name: "Last 90 Days", href: "#", current: false },
 ];
 
-export default function Example({ dataValue }: { dataValue: any }) {
+export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [data, setData] = useState<VayuGunaModel[]>([
-    {
-      Temperature: 0,
-      Humidity: 0,
-    },
-  ]);
   const [refresh, setRefresh] = useState(false);
   const [lastUpdated, setLastUpdated] = useState("");
-  const [period, setPeriod] = useState("Last 7 days");
-  const stats1 = useMemo(() => {
-    if (data) {
-      return [
-        {
-          name: "Temperature",
-          value: `${data[0].Temperature.toFixed(2)}°C`,
-          change: "+4.75%",
-          changeType: "positive",
-          desp: "",
-        },
-        {
-          name: "Humidity",
-          value: `${data[0].Humidity.toFixed(2)} % r.H`,
-          change: "+10.18%",
-          changeType: "negative",
-          desp: "",
-        },
-      ];
-    } else {
-    }
-    return [];
-  }, [data]);
   const [graphData, setGraphData] = useState<any>([]);
-  console.log("Date",graphData[graphData.length-1])
   const fetchData = async () => {
     try {
-      const querySnapshot = await getDocs( collection(db, "/Brillio"));
+      const querySnapshot = await getDocs(collection(db, "/Brillio"));
 
       const fetchedData = querySnapshot.docs.map((doc) => ({
         id: doc.id,
@@ -127,7 +80,6 @@ export default function Example({ dataValue }: { dataValue: any }) {
       const sortedValues = sortDates(fetchedData);
       setGraphData(sortedValues);
 
-  
       setLastUpdated(formatDateTime());
     } catch (e) {}
   };
@@ -174,9 +126,9 @@ export default function Example({ dataValue }: { dataValue: any }) {
   }, [refresh]);
 
   useEffect(() => {
-    const user = sessionStorage.getItem("user");
+    const user = localStorage.getItem("user");
     if (!user) {
-      router.push("/login");
+      router.push("/");
     }
   }, []);
 
@@ -192,128 +144,136 @@ export default function Example({ dataValue }: { dataValue: any }) {
           </div>
         </div>
       )}
-      {data && (
-        <div>
-          <header className="absolute inset-x-0 top-0 z-50 flex h-16 border-b border-gray-900/10 shadow-md">
-            <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-              <div className="flex flex-1 items-center gap-x-6">
-                <a href="#" className="-m-1.5 p-1.5">
-                  <Image
-                    src="/brillo.png"
-                    alt="My Image"
-                    className="h-6 w-auto bg-white"
-                    width={500}
-                    height={500}
-                  />
+      <div>
+        <header className="absolute inset-x-0 top-0 z-50 flex h-16 border-b border-gray-900/10 shadow-md">
+          <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-1 items-center gap-x-6">
+              <a href="#" className="-m-1.5 p-1.5">
+                <Image
+                  src="/brillo.png"
+                  alt="My Image"
+                  className="h-6 w-auto bg-white"
+                  width={500}
+                  height={500}
+                />
+              </a>
+            </div>
+            <nav className="hidden md:flex md:gap-x-11 md:text-sm md:font-semibold md:leading-6 md:text-gray-700">
+              {navigation.map((item, itemIdx) => (
+                <a key={itemIdx} href={item.href}>
+                  {item.name}
                 </a>
+              ))}
+            </nav>
+            <div>
+              <div className="flex flex-1 flex-row items-center justify-end gap-2">
+                <a href="#" className="">
+                  <MapPinIcon className="h-4 w-4 text-primary-800" />
+                </a>
+                <p className="text-gray-700 text-sm font-semibold">
+                  Brillio, Chennai
+                </p>
               </div>
-              <nav className="hidden md:flex md:gap-x-11 md:text-sm md:font-semibold md:leading-6 md:text-gray-700">
-                {navigation.map((item, itemIdx) => (
-                  <a key={itemIdx} href={item.href}>
+              <div className="flex flex-1 flex-row items-center justify-end">
+                <ArrowPathIcon
+                  className={`h-4 w-4 mr-1 text-primary-800 ${
+                    refresh ? "animate-spin" : ""
+                  }`}
+                  onClick={() => {
+                    setRefresh(true);
+                    setTimeout(() => {
+                      setRefresh(false);
+                    }, 2000);
+                  }}
+                />
+
+                <p className="text-xs text-gray-800 items-baseline">
+                  Last updated: {lastUpdated}
+                </p>
+              </div>
+            </div>
+          </div>
+          <Dialog
+            as="div"
+            className="lg:hidden"
+            open={mobileMenuOpen}
+            onClose={setMobileMenuOpen}
+          >
+            <div className="fixed inset-0 z-50" />
+            <Dialog.Panel className="fixed inset-y-0 left-0 z-50 w-full overflow-y-auto bg-white px-4 pb-6 sm:max-w-sm sm:px-6 sm:ring-1 sm:ring-gray-900/10">
+              <div className="-ml-0.5 flex h-16 items-center gap-x-6">
+                <button
+                  type="button"
+                  className="-m-2.5 p-2.5 text-gray-700"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span className="sr-only">Close menu</span>
+                  <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                </button>
+                <div className="-ml-0.5">
+                  <a href="#" className="-m-1.5 block p-1.5">
+                    <span className="sr-only">Your Company</span>
+                    <img
+                      className="h-8 w-auto"
+                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                      alt=""
+                    />
+                  </a>
+                </div>
+              </div>
+              <div className="mt-2 space-y-2">
+                {navigation.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
                     {item.name}
                   </a>
                 ))}
-              </nav>
-              <div>
-                <div className="flex flex-1 flex-row items-center justify-end gap-2">
-                  <a href="#" className="">
-                    <MapPinIcon className="h-4 w-4 text-primary-800" />
-                  </a>
-                  <p className="text-gray-700 text-sm font-semibold">Brillio, Chennai</p>
-                </div>
-                <div className="flex flex-1 flex-row items-center justify-end">
-                  <ArrowPathIcon
-                    className={`h-4 w-4 mr-1 text-primary-800 ${
-                      refresh ? "animate-spin" : ""
-                    }`}
-                    onClick={() => {
-                      setRefresh(true);
-                      setTimeout(() => {
-                        setRefresh(false);
-                      }, 2000);
-                    }}
-                  />
-
-                  <p className="text-xs text-gray-800 items-baseline">
-                    Last updated: {lastUpdated}
-                  </p>
-                </div>
               </div>
-            </div>
-            <Dialog
-              as="div"
-              className="lg:hidden"
-              open={mobileMenuOpen}
-              onClose={setMobileMenuOpen}
-            >
-              <div className="fixed inset-0 z-50" />
-              <Dialog.Panel className="fixed inset-y-0 left-0 z-50 w-full overflow-y-auto bg-white px-4 pb-6 sm:max-w-sm sm:px-6 sm:ring-1 sm:ring-gray-900/10">
-                <div className="-ml-0.5 flex h-16 items-center gap-x-6">
-                  <button
-                    type="button"
-                    className="-m-2.5 p-2.5 text-gray-700"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <span className="sr-only">Close menu</span>
-                    <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
-                  <div className="-ml-0.5">
-                    <a href="#" className="-m-1.5 block p-1.5">
-                      <span className="sr-only">Your Company</span>
-                      <img
-                        className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                        alt=""
-                      />
-                    </a>
-                  </div>
-                </div>
-                <div className="mt-2 space-y-2">
-                  {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                    >
-                      {item.name}
-                    </a>
-                  ))}
-                </div>
-              </Dialog.Panel>
-            </Dialog>
-          </header>
+            </Dialog.Panel>
+          </Dialog>
+        </header>
 
-          <main>
-            <div className="flex pt-16 sm:flex-row flex-col justify-between lg:px-6 xl:px-8 gap-8 max-w-7xl mt-8 mx-auto">
-              {graphData[graphData.length-1] && <TemparatureChartUI value={graphData[graphData.length-1].Temperature}/>}
-             {graphData[graphData.length-1] && <HumidityChartUI value={graphData[graphData.length-1].Humidity}/>}
-            </div>
-
-            {historic && (
-              <header className="pb-4 pt-6 sm:pb-6">
-                <div className="h-[450px] mx-auto w-full flex max-w-7xl md:flex-row flex-col items-center gap-6 px-0 sm:flex-nowrap sm:px-6 lg:px-8">
-                  <TemperatureAreaChart sortedValues={graphData ?? []} />
-                </div>
-              </header>
+        <main>
+          <div className="flex pt-16 sm:flex-row flex-col justify-between lg:px-6 xl:px-8 gap-8 max-w-7xl mt-8 mx-auto">
+            {graphData[graphData.length - 1] && (
+              <TemparatureChartUI
+                value={graphData[graphData.length - 1].Temperature}
+              />
             )}
-          </main>
+            {graphData[graphData.length - 1] && (
+              <HumidityChartUI
+                value={graphData[graphData.length - 1].Humidity}
+              />
+            )}
+          </div>
 
-          <footer className="flex flex-row justify-between lg:px-6 xl:px-8 gap-8 max-w-7xl mx-auto">
-            <div className="bg-white border border-gray-300  rounded-2xl px-4 py-2 flex-1 w-full">
-              <div className="justify-between flex flex-col items-start">
-                <p className="font-medium px-4 sm:px-4">Location</p>
-                <div className="flex items-center justify-between bg-white px-4 py-3 sm:px-5">
-                  <img
-                    src="./map.png"
-                    alt=""
-                    className="h-full w-full rounded-2xl object-right md:object-center"
-                  />
-                </div>
+          {historic && (
+            <header className="pb-4 pt-6 sm:pb-6">
+              <div className="h-[450px] mx-auto w-full flex max-w-7xl md:flex-row flex-col items-center gap-6 px-0 sm:flex-nowrap sm:px-6 lg:px-8">
+                <TemperatureAreaChart sortedValues={graphData ?? []} />
+              </div>
+            </header>
+          )}
+        </main>
+
+        <footer className="flex flex-row justify-between lg:px-6 xl:px-8 gap-8 max-w-7xl mx-auto">
+          <div className="bg-white border border-gray-300  rounded-2xl px-4 py-2 flex-1 w-full">
+            <div className="justify-between flex flex-col items-start">
+              <p className="font-medium px-4 sm:px-4">Location</p>
+              <div className="flex items-center justify-between bg-white px-4 py-3 sm:px-5">
+                <img
+                  src="./map.png"
+                  alt=""
+                  className="h-full w-full rounded-2xl object-right md:object-center"
+                />
               </div>
             </div>
-          </footer>
-        </div>
-      )}
+          </div>
+        </footer>
+      </div>
     </>
   );
 }

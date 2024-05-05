@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Footer from "./footer";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,7 +12,6 @@ export const metadata: Metadata = {
   title: "Vayuguna",
   description: "Monitor the Air Quality for better tomorrow",
 };
-
 
 export default function RootLayout({
   children,
@@ -36,7 +35,6 @@ export default function RootLayout({
           pauseOnHover
           theme="light"
         />
-        {/* <ToastContainer /> */}
       </body>
     </html>
   );

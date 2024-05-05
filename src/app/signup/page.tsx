@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "../firebaseConfig";
@@ -18,7 +18,7 @@ const SignUp = () => {
     try {
       const res = await createUserWithEmailAndPassword(email, password);
       if (res) {
-        sessionStorage.setItem("user", "true");
+        localStorage.setItem("user", "true");
         setEmail("");
         setPassword("");
 
