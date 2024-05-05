@@ -1,7 +1,4 @@
 import { Component } from "react";
-import { progressChart } from "./AQIMeter";
-import { SparklesIcon } from "@heroicons/react/20/solid";
-import { TemparatureChart } from "./TempratureMeter";
 import { HumidityChart } from "./HumidityMeter";
 interface HumidityChartUIProps {
   value: number; // Or whatever type 'value' represents

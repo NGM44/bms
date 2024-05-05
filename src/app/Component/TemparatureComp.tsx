@@ -1,15 +1,11 @@
 import { Component } from "react";
-import { progressChart } from "./AQIMeter";
-import { SparklesIcon } from "@heroicons/react/20/solid";
 import { TemparatureChart } from "./TempratureMeter";
 
 interface TemperatureChartUIProps {
   value: number; // Or whatever type 'value' represents
 }
 
-
 export class TemparatureChartUI extends Component<TemperatureChartUIProps> {
- 
   componentDidMount() {
     TemparatureChart(this.props.value ?? 0);
   }

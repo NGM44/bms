@@ -1,27 +1,29 @@
-'use client';
+"use client";
 import { useState } from "react";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+// import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
 import { auth } from "./firebaseConfig";
 import Image from "next/image";
 import { toast } from "react-toastify";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Example() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+  // const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
   const router = useRouter();
 
-  const handleSignIn = async () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
     try {
-      const res = await signInWithEmailAndPassword(email, password);
-      console.log("res",res);
+      const res = await signInWithEmailAndPassword(auth, email, password);
+      console.log("res", res);
       if (res?.user) {
-        console.log("res1",res);
+        console.log("res1", res);
         localStorage.setItem("user", "true");
         router.push("/dashboard");
-        console.log("res2",res);
+        console.log("res2", res);
         setEmail("");
         setPassword("");
         toast("Logged in Successfully", {
@@ -48,12 +50,12 @@ export default function Example() {
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8 mx-4">
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-white px-6 py-6 pb-12 shadow-lg sm:rounded-lg sm:px-12 border border-gray-200">
-            <div className="sm:mx-auto sm:w-full sm:max-w-md pb-8">
-              <div className="items-center flex flex-row mx-auto">
+            <div className="sm:mx-auto sm:w-full sm:max-w-md py-8">
+              <div className="items-center flex flex-row mx-auto mb-8">
                 <Image
                   src="/logo.png"
                   alt="My Image"
-                  className="h-32 w-auto mx-auto"
+                  className="h-8 w-auto mx-auto"
                   width={500} // Adjust width as needed
                   height={500} // Adjust height as needed
                 />
@@ -120,7 +122,7 @@ export default function Example() {
               <div>
                 <button
                   type="submit"
-                  onClick={handleSignIn}
+                  onClick={handleSubmit}
                   className="flex w-full justify-center rounded-md bg-primary-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Sign in
