@@ -149,7 +149,7 @@ export default function Example() {
             <div className="flex flex-1 items-center gap-x-6">
               <a href="#" className="-m-1.5 p-1.5">
                 <Image
-                  src="/brillo.png"
+                  src="/logo.png"
                   alt="My Image"
                   className="h-6 w-auto bg-white"
                   width={500}
@@ -170,7 +170,7 @@ export default function Example() {
                   <MapPinIcon className="h-4 w-4 text-primary-800" />
                 </a>
                 <p className="text-gray-700 text-sm font-semibold">
-                  Brillio, Chennai
+                  Bengaluru
                 </p>
               </div>
               <div className="flex flex-1 flex-row items-center justify-end">
