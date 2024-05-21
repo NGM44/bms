@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useEffect, useMemo, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { ArrowPathIcon } from "@heroicons/react/20/solid";
@@ -9,11 +9,12 @@ import { db } from "../firebaseConfig";
 import { TemparatureChartUI } from "../Component/TemparatureComp";
 import { HumidityChartUI } from "../Component/HumidityComp";
 import TemperatureAreaChart from "../Component/TemperatureAreaChart";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 function sortDates(datesArray: any) {
   if (datesArray && datesArray.length > 1) {
     datesArray.sort((dataPointA: any, dataPointB: any) => {
+      if(dataPointA.myTimestamp && dataPointB.myTimestamp){
       // Extract timestamps
       const timestampA = dataPointA.myTimestamp;
       const timestampB = dataPointB.myTimestamp;
@@ -48,6 +49,7 @@ function sortDates(datesArray: any) {
 
       // Compare the Date objects and return the appropriate sorting order
       return dateObjectA - dateObjectB;
+    }
     });
 
     return datesArray;
@@ -76,14 +78,17 @@ export default function Example() {
         id: doc.id,
         ...doc.data(),
       }));
+      console.log("fetchedData", fetchedData);
       const sortedValues = sortDates(fetchedData);
-      setGraphData(sortedValues);
+      setGraphData(fetchedData);
 
       setLastUpdated(formatDateTime());
-    } catch (e) {}
+    } catch (e) {
+      console.log("error", e);
+    }
   };
   useEffect(() => {
-    setInterval(fetchData, 5000);
+    setInterval(fetchData, 10000);
   }, []);
 
   const [historic, setHistoric] = useState(true);
@@ -169,9 +174,7 @@ export default function Example() {
                 <a href="#" className="">
                   <MapPinIcon className="h-4 w-4 text-primary-800" />
                 </a>
-                <p className="text-gray-700 text-sm font-semibold">
-                  Bengaluru
-                </p>
+                <p className="text-gray-700 text-sm font-semibold">Bengaluru</p>
               </div>
               <div className="flex flex-1 flex-row items-center justify-end">
                 <ArrowPathIcon
