@@ -14,42 +14,42 @@ import { useRouter } from "next/navigation";
 function sortDates(datesArray: any) {
   if (datesArray && datesArray.length > 1) {
     datesArray.sort((dataPointA: any, dataPointB: any) => {
-      if(dataPointA.myTimestamp && dataPointB.myTimestamp){
-      // Extract timestamps
-      const timestampA = dataPointA.myTimestamp;
-      const timestampB = dataPointB.myTimestamp;
-      // datesArray.sort((dateA:any, dateB:any) => {
-      // Split the date and time components
-      const [datePartA, timePartA] = timestampA.split(", ");
-      const [datePartB, timePartB] = timestampB.split(", ");
+      if (dataPointA.myTimestamp && dataPointB.myTimestamp) {
+        // Extract timestamps
+        const timestampA = dataPointA.myTimestamp;
+        const timestampB = dataPointB.myTimestamp;
+        // datesArray.sort((dateA:any, dateB:any) => {
+        // Split the date and time components
+        const [datePartA, timePartA] = timestampA.split(", ");
+        const [datePartB, timePartB] = timestampB.split(", ");
 
-      // Split the date components into day, month, and year
-      const [dayA, monthA, yearA] = datePartA.split("-");
-      const [dayB, monthB, yearB] = datePartB.split("-");
+        // Split the date components into day, month, and year
+        const [dayA, monthA, yearA] = datePartA.split("-");
+        const [dayB, monthB, yearB] = datePartB.split("-");
 
-      // Split the time components into hours and minutes
-      const [hoursA, minutesA] = timePartA.split(":");
-      const [hoursB, minutesB] = timePartB.split(":");
+        // Split the time components into hours and minutes
+        const [hoursA, minutesA] = timePartA.split(":");
+        const [hoursB, minutesB] = timePartB.split(":");
 
-      // Create Date objects for comparison
-      const dateObjectA: any = new Date(
-        yearA,
-        monthA - 1,
-        dayA,
-        hoursA,
-        minutesA
-      );
-      const dateObjectB: any = new Date(
-        yearB,
-        monthB - 1,
-        dayB,
-        hoursB,
-        minutesB
-      );
+        // Create Date objects for comparison
+        const dateObjectA: any = new Date(
+          yearA,
+          monthA - 1,
+          dayA,
+          hoursA,
+          minutesA
+        );
+        const dateObjectB: any = new Date(
+          yearB,
+          monthB - 1,
+          dayB,
+          hoursB,
+          minutesB
+        );
 
-      // Compare the Date objects and return the appropriate sorting order
-      return dateObjectA - dateObjectB;
-    }
+        // Compare the Date objects and return the appropriate sorting order
+        return dateObjectA - dateObjectB;
+      }
     });
 
     return datesArray;
@@ -88,7 +88,7 @@ export default function Example() {
     }
   };
   useEffect(() => {
-    setInterval(fetchData, 10000);
+    setInterval(fetchData, 1000000);
   }, []);
 
   const [historic, setHistoric] = useState(true);
