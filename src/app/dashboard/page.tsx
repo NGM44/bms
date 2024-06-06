@@ -1,15 +1,14 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { WeatherData } from "@/types/weatherData";
 import { Dialog } from "@headlessui/react";
 import { ArrowPathIcon } from "@heroicons/react/20/solid";
 import { MapPinIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebaseConfig";
-import { TemparatureChartUI } from "../Component/TemparatureComp";
-import { HumidityChartUI } from "../Component/HumidityComp";
-import TemperatureAreaChart from "../Component/TemperatureAreaChart";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { HumidityChartUI } from "../Component/HumidityComp";
+import { TemparatureChartUI } from "../Component/TemparatureComp";
+import TemperatureAreaChart from "../Component/TemperatureAreaChart";
 
 function sortDates(datesArray: any) {
   if (datesArray && datesArray.length > 1) {
@@ -69,77 +68,18 @@ export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [lastUpdated, setLastUpdated] = useState("");
-  const [graphData, setGraphData] = useState<any>([
-    { Temperature: 28.5, Humidity: 65, myTimestamp: "2024-05-22T09:15:00" },
-    { Temperature: 29.2, Humidity: 62, myTimestamp: "2024-05-22T09:30:00" },
-    { Temperature: 29.8, Humidity: 60, myTimestamp: "2024-05-22T09:45:00" },
-    { Temperature: 30.5, Humidity: 58, myTimestamp: "2024-05-22T10:00:00" },
-    { Temperature: 31.1, Humidity: 56, myTimestamp: "2024-05-22T10:15:00" },
-    { Temperature: 31.6, Humidity: 55, myTimestamp: "2024-05-22T10:30:00" },
-    { Temperature: 32.0, Humidity: 54, myTimestamp: "2024-05-22T10:45:00" },
-    { Temperature: 32.3, Humidity: 53, myTimestamp: "2024-05-22T11:00:00" },
-    { Temperature: 32.5, Humidity: 52, myTimestamp: "2024-05-22T11:15:00" },
-    { Temperature: 32.7, Humidity: 52, myTimestamp: "2024-05-22T11:30:00" },
-    { Temperature: 32.8, Humidity: 51, myTimestamp: "2024-05-22T11:45:00" },
-    { Temperature: 32.9, Humidity: 51, myTimestamp: "2024-05-22T12:00:00" },
-    { Temperature: 33.0, Humidity: 50, myTimestamp: "2024-05-22T12:15:00" },
-    { Temperature: 33.1, Humidity: 50, myTimestamp: "2024-05-22T12:30:00" },
-    { Temperature: 33.0, Humidity: 50, myTimestamp: "2024-05-22T12:45:00" },
-    { Temperature: 32.8, Humidity: 51, myTimestamp: "2024-05-22T13:00:00" },
-    { Temperature: 32.6, Humidity: 52, myTimestamp: "2024-05-22T13:15:00" },
-    { Temperature: 32.4, Humidity: 52, myTimestamp: "2024-05-22T13:30:00" },
-    { Temperature: 32.1, Humidity: 53, myTimestamp: "2024-05-22T13:45:00" },
-    { Temperature: 31.8, Humidity: 54, myTimestamp: "2024-05-22T14:00:00" },
-    { Temperature: 31.5, Humidity: 55, myTimestamp: "2024-05-22T14:15:00" },
-    { Temperature: 31.1, Humidity: 56, myTimestamp: "2024-05-22T14:30:00" },
-    { Temperature: 30.7, Humidity: 57, myTimestamp: "2024-05-22T14:45:00" },
-    { Temperature: 30.3, Humidity: 58, myTimestamp: "2024-05-22T15:00:00" },
-    { Temperature: 29.8, Humidity: 59, myTimestamp: "2024-05-22T15:15:00" },
-    { Temperature: 29.3, Humidity: 60, myTimestamp: "2024-05-22T15:30:00" },
-    { Temperature: 28.8, Humidity: 61, myTimestamp: "2024-05-22T15:45:00" },
-    { Temperature: 28.3, Humidity: 62, myTimestamp: "2024-05-22T16:00:00" },
-    { Temperature: 27.8, Humidity: 63, myTimestamp: "2024-05-22T16:15:00" },
-    { Temperature: 27.3, Humidity: 64, myTimestamp: "2024-05-22T16:30:00" },
-    { Temperature: 26.8, Humidity: 65, myTimestamp: "2024-05-22T16:45:00" },
-    { Temperature: 26.3, Humidity: 66, myTimestamp: "2024-05-22T17:00:00" },
-    { Temperature: 25.9, Humidity: 67, myTimestamp: "2024-05-22T17:15:00" },
-    { Temperature: 25.5, Humidity: 68, myTimestamp: "2024-05-22T17:30:00" },
-    { Temperature: 25.1, Humidity: 69, myTimestamp: "2024-05-22T17:45:00" },
-    { Temperature: 24.8, Humidity: 70, myTimestamp: "2024-05-22T18:00:00" },
-    { Temperature: 24.5, Humidity: 70, myTimestamp: "2024-05-22T18:15:00" },
-    { Temperature: 24.3, Humidity: 71, myTimestamp: "2024-05-22T18:30:00" },
-    { Temperature: 24.1, Humidity: 71, myTimestamp: "2024-05-22T18:45:00" },
-    { Temperature: 23.9, Humidity: 72, myTimestamp: "2024-05-22T19:00:00" },
-    { Temperature: 23.8, Humidity: 72, myTimestamp: "2024-05-22T19:15:00" },
-    { Temperature: 23.7, Humidity: 73, myTimestamp: "2024-05-22T19:30:00" },
-    { Temperature: 23.6, Humidity: 73, myTimestamp: "2024-05-22T19:45:00" },
-    { Temperature: 23.5, Humidity: 74, myTimestamp: "2024-05-22T20:00:00" },
-    { Temperature: 23.5, Humidity: 74, myTimestamp: "2024-05-22T20:15:00" },
-    { Temperature: 23.5, Humidity: 74, myTimestamp: "2024-05-22T20:30:00" },
-    { Temperature: 23.6, Humidity: 74, myTimestamp: "2024-05-22T20:45:00" },
-    { Temperature: 24.8, Humidity: 72, myTimestamp: "2024-05-23T08:15:00" },
-    ]
-  );
+  const [graphData, setGraphData] = useState<WeatherData[]>([]);
   const fetchData = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, "/Brillio"));
-
-      const fetchedData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      const fetchedData: WeatherData[] = []; 
       console.log("fetchedData", fetchedData);
       const sortedValues = sortDates(fetchedData);
-      setGraphData(fetchedData);
-
+      setGraphData(sortedValues);
       setLastUpdated(formatDateTime());
     } catch (e) {
       console.log("error", e);
     }
   };
-  useEffect(() => {
-    setInterval(fetchData, 1000000);
-  }, []);
 
   const [historic, setHistoric] = useState(true);
   function formatDateTime() {
@@ -176,15 +116,11 @@ export default function Example() {
   const router = useRouter();
 
   useEffect(() => {
-    fetchData();
-  }, [refresh]);
-
-  useEffect(() => {
     const user = localStorage.getItem("user");
     if (!user) {
       router.push("/");
     }
-  }, []);
+  }, [router]);
 
   return (
     <>
@@ -292,13 +228,13 @@ export default function Example() {
           <div className="flex pt-16 sm:flex-row flex-col justify-between lg:px-6 xl:px-8 gap-8 max-w-7xl mt-8 mx-auto">
             {graphData[graphData.length - 1] && (
               <TemparatureChartUI
-                value={graphData[graphData.length - 1].Temperature}
+                value={graphData[graphData.length - 1].temperature}
               />
             )}
             {/* <Dummy /> */}
             {graphData[graphData.length - 1] && (
               <HumidityChartUI
-                value={graphData[graphData.length - 1].Humidity}
+                value={graphData[graphData.length - 1].humidity}
               />
             )}
           </div>

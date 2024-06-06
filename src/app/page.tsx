@@ -1,32 +1,31 @@
 "use client";
-import { useState } from "react";
-// import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { useRouter } from "next/navigation";
-import { auth } from "./firebaseConfig";
+import { doLogin } from "@/api/login";
+import { useAuthStore } from "@/store/authStore";
+import { LoginRequest, Role } from "@/types/login";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Example() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  // const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
   const router = useRouter();
+  const { setAuth } = useAuthStore();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    try {
-      const res = await signInWithEmailAndPassword(auth, email, password);
-      console.log("res", res);
-      if (res?.user) {
-        console.log("res1", res);
-        localStorage.setItem("user", "true");
-        router.push("/dashboard");
-        console.log("res2", res);
-        setEmail("");
-        setPassword("");
-        toast("Logged in Successfully", {
+      const loginDto: LoginRequest =  {emailId: email, password,role :Role.ADMIN};
+      const response  = await doLogin(loginDto);
+      router.push("/dashboard");
+      setAuth({
+        accessToken: response.token,
+        isAuthenticated: true,
+      });
+      setEmail("");
+      setPassword("");
+      toast("Logged in Successfully", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -36,15 +35,25 @@ export default function Example() {
           progress: undefined,
           theme: "light",
         });
-      } else {
-        toast("Login Failed, try again");
-      }
-    } catch (e) {
-      toast("Soemthing went wrong");
-      console.error(e);
+          
+          // if (accessToken) {
+          //   getPermission().then((permission) => {
+          //     setPermission(permission.data as Permission);
+          //     setAuth({
+          //       accessToken,
+          //       isAuthenticated: true,
+          //     });
+          //   });
+          // }
+        // },
+        // onError: (err: any) => {
+        //   toast(err.response.data.errorMessage, {
+        //     type: "error",
+        //     autoClose: 2000,
+        //   });
+        // },
+      // });
     }
-  };
-
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8 mx-4">

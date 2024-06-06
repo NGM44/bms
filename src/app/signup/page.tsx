@@ -1,53 +1,18 @@
 'use client';
-import { useState } from "react";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { auth } from "../firebaseConfig";
-import router from "next/router";
+import { doSignUp } from "@/api/login";
+import { LoginRequest, Role } from "@/types/login";
 import Link from "next/link";
-import { toast } from "react-toastify";
+import { useState } from "react";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [createUserWithEmailAndPassword] =
-    useCreateUserWithEmailAndPassword(auth);
 
   const handleSignUp = async () => {
-    try {
-      const res = await createUserWithEmailAndPassword(email, password);
-      if (res) {
-        localStorage.setItem("user", "true");
-        setEmail("");
-        setPassword("");
-
-        toast("Logged in Successfully", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        router.push("");
-      } else {
-        toast("Logged in Successfully", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
-    } catch (e) {
-      console.error(e);
-    }
+    const signUpDto: LoginRequest = {emailId: email, password, role: Role.ADMIN};
+    doSignUp(signUpDto);
   };
 
   return (

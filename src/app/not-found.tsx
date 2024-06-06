@@ -28,17 +28,16 @@
 //   );
 // }
 'use client';
-import { useEffect, useMemo, useState } from "react";
+import { WeatherData } from "@/types/weatherData";
 import { Dialog } from "@headlessui/react";
 import { ArrowPathIcon } from "@heroicons/react/20/solid";
 import { MapPinIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "./firebaseConfig";
-import { TemparatureChartUI } from "./Component/TemparatureComp";
-import { HumidityChartUI } from "./Component/HumidityComp";
-import TemperatureAreaChart from "./Component/TemperatureAreaChart";
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { HumidityChartUI } from "./Component/HumidityComp";
+import { TemparatureChartUI } from "./Component/TemparatureComp";
+import TemperatureAreaChart from "./Component/TemperatureAreaChart";
 
 function sortDates(datesArray: any) {
   if (datesArray && datesArray.length > 1) {
@@ -99,21 +98,14 @@ export default function Example() {
   const [graphData, setGraphData] = useState<any>([]);
   const fetchData = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, "/Brillio"));
 
-      const fetchedData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      const fetchedData: WeatherData[] = [];
       const sortedValues = sortDates(fetchedData);
       setGraphData(sortedValues);
 
       setLastUpdated(formatDateTime());
     } catch (e) {}
   };
-  useEffect(() => {
-    setInterval(fetchData, 5000);
-  }, []);
 
   const [historic, setHistoric] = useState(true);
   function formatDateTime() {
@@ -147,18 +139,6 @@ export default function Example() {
     const formattedDateTime = `${month} ${day} ${year}, ${hours}:${minutes} ${ampm}`;
     return formattedDateTime;
   }
-  const router = useRouter();
-
-  useEffect(() => {
-    fetchData();
-  }, [refresh]);
-
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (!user) {
-      router.push("/");
-    }
-  }, []);
 
   return (
     <>
